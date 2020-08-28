@@ -73,7 +73,8 @@ class AudioModel {
     private func runEveryInterval(){
         if inputBuffer != nil {
             // copy time data to swift array
-            self.inputBuffer!.fetchFreshData(&timeData, withNumSamples: Int64(BUFFER_SIZE))
+            self.inputBuffer!.fetchFreshData(&timeData,
+                                             withNumSamples: Int64(BUFFER_SIZE))
             
             // now take FFT
             fftHelper!.performForwardFFT(withData: &timeData,
