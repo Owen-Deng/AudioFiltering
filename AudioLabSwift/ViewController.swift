@@ -35,6 +35,8 @@ class ViewController: UIViewController {
             shouldNormalize: false,
             numPointsInGraph: AUDIO_BUFFER_SIZE)
         
+        
+        
         // start up the audio model here, querying microphone
         audio.startMicrophoneProcessing(withFps: 10)
 
@@ -60,6 +62,8 @@ class ViewController: UIViewController {
             data: self.audio.timeData,
             forKey: "time"
         )
+        
+        
         
     }
     
