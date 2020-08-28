@@ -15,7 +15,7 @@ let AUDIO_BUFFER_SIZE = 1024*4
 
 class ViewController: UIViewController {
 
-    
+    // setup audio model
     let audio = AudioModel(buffer_size: AUDIO_BUFFER_SIZE)
     lazy var graph:MetalGraph? = {
         return MetalGraph(mainView: self.view)
@@ -35,10 +35,9 @@ class ViewController: UIViewController {
             shouldNormalize: false,
             numPointsInGraph: AUDIO_BUFFER_SIZE)
         
-        // just start up the audio model here
+        // start up the audio model here, querying microphone
         audio.startMicrophoneProcessing(withFps: 10)
-        //audio.startProcesingAudioFileForPlayback()
-        audio.startProcessingSinewaveForPlayback(withFreq: 630.0)
+
         audio.play()
         
         // run the loop for updating the graph peridocially
@@ -49,7 +48,7 @@ class ViewController: UIViewController {
        
     }
     
-    
+    // periodically, update the graph with refreshed FFT Data
     @objc
     func updateGraph(){
         self.graph?.updateGraph(
