@@ -61,6 +61,7 @@
 @property (nonatomic, strong) NSString *audioFileName;
 @property (nonatomic, strong) NSTimer *audioFileTimer;
 @property (nonatomic) float *outputBuffer;
+@property float phaseIncrement;
 
 
 - (void)setupAudio;
@@ -71,6 +72,7 @@
 
 
 @implementation Novocaine
+@synthesize sineFrequency = _sineFrequency;
 
 static pthread_mutex_t outputAudioFileLock;
 
@@ -174,6 +176,39 @@ static pthread_mutex_t outputAudioFileLock;
     //Block_release(tmpBlock);
 }
 
+-(void)setSineFrequency:(float)sineFrequency{
+    _sineFrequency = sineFrequency;
+    self.phaseIncrement = 2*M_PI*sineFrequency/self.samplingRate;
+}
+
+-(void)setOutputBlockToPlaySineWave:(float)frequency{
+    self.sineFrequency = frequency;
+    __block float phase = 0.0;
+    double sineWaveRepeatMax = 2*M_PI;
+
+    __block Novocaine * __weak  weakSelf = self;
+    [self setOutputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels)
+     {
+        if(numChannels == 1){
+            for (int i=0; i < numFrames; ++i)
+            {
+                data[i] = sin(phase);
+                
+                phase += weakSelf.phaseIncrement;
+                if (phase >= sineWaveRepeatMax) phase -= sineWaveRepeatMax;
+            }
+        }else if(numChannels==2){
+            for (int i=0; i < numFrames*numChannels; i+=2)
+            {
+                data[i] = sin(phase);
+                data[i+1] = data[i];
+                
+                phase += weakSelf.phaseIncrement;
+                if (phase >= sineWaveRepeatMax) phase -= sineWaveRepeatMax;
+            }
+        }
+     }];
+}
 
 
 #pragma mark - Audio Methods

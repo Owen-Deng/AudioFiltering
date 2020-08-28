@@ -90,6 +90,7 @@ typedef void (^InputBlock)(float *data, UInt32 numFrames, UInt32 numChannels);
 @property BOOL playing;
 @property float *inData;
 @property float *outData;
+@property (nonatomic) float sineFrequency;
 @property (nonatomic) BOOL shouldSaveContinuouslySampledMicrophoneAudioDataToNewFile; //
 
 @property (nonatomic, strong) NSString *audioFileWrittenOut;
@@ -105,6 +106,7 @@ typedef void (^InputBlock)(float *data, UInt32 numFrames, UInt32 numChannels);
 - (void)setupAudio;
 - (void)teardownAudio;
 - (void)ifAudioInputIsAvailableThenSetupAudioSession;
+- (void)setOutputBlockToPlaySineWave:(float)frequency;
 
 - (void)checkSessionProperties;
 - (void)checkAudioSource;
