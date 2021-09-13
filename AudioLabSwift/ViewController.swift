@@ -10,13 +10,17 @@ import UIKit
 import Metal
 
 
-let AUDIO_BUFFER_SIZE = 1024*4
+
 
 
 class ViewController: UIViewController {
 
+    struct AudioConstants{
+        static let AUDIO_BUFFER_SIZE = 1024*4
+    }
+    
     // setup audio model
-    let audio = AudioModel(buffer_size: AUDIO_BUFFER_SIZE)
+    let audio = AudioModel(buffer_size: AudioConstants.AUDIO_BUFFER_SIZE)
     lazy var graph:MetalGraph? = {
         return MetalGraph(mainView: self.view)
     }()
@@ -29,11 +33,11 @@ class ViewController: UIViewController {
         // add in graphs for display
         graph?.addGraph(withName: "fft",
                         shouldNormalize: true,
-                        numPointsInGraph: AUDIO_BUFFER_SIZE/2)
+                        numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/2)
         
         graph?.addGraph(withName: "time",
             shouldNormalize: false,
-            numPointsInGraph: AUDIO_BUFFER_SIZE)
+            numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
         
         
         

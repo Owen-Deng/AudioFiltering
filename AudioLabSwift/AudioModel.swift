@@ -29,20 +29,24 @@ class AudioModel {
     // public function for starting processing of microphone data
     func startMicrophoneProcessing(withFps:Double){
         // setup the microphone to copy to circualr buffer
-        self.audioManager?.inputBlock = self.handleMicrophone
-        
-        // repeat this fps times per second using the timer class
-        //   every time this is called, we update the arrays "timeData" and "fftData"
-        Timer.scheduledTimer(timeInterval: 1.0/withFps, target: self,
-                            selector: #selector(self.runEveryInterval),
-                            userInfo: nil,
-                            repeats: true)
+        if let manager = self.audioManager{
+            manager.inputBlock = self.handleMicrophone
+            
+            // repeat this fps times per second using the timer class
+            //   every time this is called, we update the arrays "timeData" and "fftData"
+            Timer.scheduledTimer(timeInterval: 1.0/withFps, target: self,
+                                 selector: #selector(self.runEveryInterval),
+                                 userInfo: nil,
+                                 repeats: true)
+        }
     }
     
     
     // You must call this when you want the audio to start being handled by our model
     func play(){
-        self.audioManager?.play()
+        if let manager = self.audioManager{
+            manager.play()
+        }
     }
     
     
@@ -79,6 +83,7 @@ class AudioModel {
             // now take FFT
             fftHelper!.performForwardFFT(withData: &timeData,
                                          andCopydBMagnitudeToBuffer: &fftData)
+            
             // at this point, we have saved the data to the arrays:
             //   timeData: the raw audio samples
             //   fftData:  the FFT of those same samples
