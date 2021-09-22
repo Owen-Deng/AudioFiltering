@@ -24,6 +24,7 @@
 //
 // TODO:
 // Switching mic and speaker on/off
+// Updating audio route from user
 //
 // HOUSEKEEPING AND NICE FEATURES:
 // Disambiguate outputFormat (the AUHAL's stream format)
@@ -62,6 +63,7 @@
 @property (nonatomic, strong) NSTimer *audioFileTimer;
 @property (nonatomic) float *outputBuffer;
 @property float phaseIncrement;
+@property Float64 samplingRate;
 
 
 - (void)setupAudio;
@@ -92,16 +94,6 @@ static pthread_mutex_t outputAudioFileLock;
     return _sharedInstance;
 }
 
-//+ (id)allocWithZone:(NSZone *)zone {
-//    @synchronized(self) {
-//        if (audioManager == nil) {
-//            audioManager = [super allocWithZone:zone];
-//            return audioManager;  // assignment and return on first allocation
-//        }
-//    }
-//    return nil; // on subsequent allocation attempts return nil
-//}
-
 
 - (id)init
 {
@@ -112,11 +104,14 @@ static pthread_mutex_t outputAudioFileLock;
         _outputBlock = nil;
 		_inputBlock	= nil;
         
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        self.samplingRate = session.sampleRate; // need this setup right away
+        
         // Initialize a float buffer to hold audio
 		_inData  = (float *)calloc(8192, sizeof(float)); // probably more than we'll need
         _outData = (float *)calloc(8192, sizeof(float));
         
-        _outputBuffer = (float *)calloc(2*44100.0, sizeof(float));
+        _outputBuffer = (float *)calloc(2*self.samplingRate, sizeof(float));
         pthread_mutex_init(&outputAudioFileLock, NULL);
         
         _playing = NO;
@@ -210,6 +205,68 @@ static pthread_mutex_t outputAudioFileLock;
      }];
 }
 
+-(void)setAudioRoute{
+    //    NSArray* inputs = [session availableInputs];
+    //
+    //    // Locate the Port corresponding to the built-in microphone.
+    //    AVAudioSessionPortDescription* builtInMicPort = nil;
+    //    for (AVAudioSessionPortDescription* port in inputs)
+    //    {
+    //        if ([port.portType isEqualToString:AVAudioSessionPortBuiltInMic])
+    //        {
+    //            builtInMicPort = port;
+    //            break;
+    //        }
+    //    }
+    //
+    //    // Print out a description of the data sources for the built-in microphone
+    //    NSLog(@"There are %u data sources for port :\"%@\"", (unsigned)[builtInMicPort.dataSources count], builtInMicPort);
+    //    NSLog(@"%@", builtInMicPort.dataSources);
+    //
+    //    // loop over the built-in mic's data sources and attempt to locate the front microphone
+    //    AVAudioSessionDataSourceDescription* frontDataSource = nil;
+    //    for (AVAudioSessionDataSourceDescription* source in builtInMicPort.dataSources)
+    //    {
+    //        // other options:
+    //        //      AVAudioSessionOrientation( Top | {Front} | Back | Bottom )
+    //        if ([source.orientation isEqual:AVAudioSessionOrientationBottom])
+    //        {
+    //            frontDataSource = source;
+    //            break;
+    //        }
+    //    } // end data source iteration
+    //
+    //    if (frontDataSource)
+    //    {
+    //        NSLog(@"Currently selected source is \"%@\" for port \"%@\"", builtInMicPort.selectedDataSource.dataSourceName, builtInMicPort.portName);
+    //        NSLog(@"Attempting to select source \"%@\" on port \"%@\"", frontDataSource, builtInMicPort.portName);
+    //
+    //        // Set a preference for the front data source.
+    //        error = nil;
+    //        if (![builtInMicPort setPreferredDataSource:frontDataSource error:&error])
+    //        {
+    //            // an error occurred.
+    //            NSLog(@"setPreferredDataSource failed");
+    //        }
+    //    }
+    //    else{
+    //        NSLog(@"Front Data Source is nil, cannot change source.");
+    //    }
+    //
+    //    // Make sure the built-in mic is selected for input. This will be a no-op if the built-in mic is
+    //    // already the current input Port.
+    //    error = nil;
+    //    if(![session setPreferredInput:builtInMicPort error:&error]){
+    //        NSLog(@"%@ Couldn't set mic as preferred port %@",
+    //              NSStringFromSelector(_cmd), [error localizedDescription]);
+    //        @throw error;
+    //    }
+        
+        // Add a property listener, to listen to changes to the Route of Audio Input
+    //    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    //    [nc addObserver:self selector:@selector(audioRouteChangedListener:) name:AVAudioSessionRouteChangeNotification object:nil];
+}
+
 
 #pragma mark - Audio Methods
 
@@ -243,7 +300,7 @@ static pthread_mutex_t outputAudioFileLock;
     
   // Set the audio session to not active
     if(![[AVAudioSession sharedInstance] setActive:NO error:&error]){
-        NSLog(@"%@ Couldn't activate audio session %@",
+        NSLog(@"%@ Couldn't set activate audio session %@",
               NSStringFromSelector(_cmd), [error localizedDescription]);
         @throw error;
     }
@@ -256,9 +313,9 @@ static pthread_mutex_t outputAudioFileLock;
 //  CheckError( AudioSessionRemovePropertyListenerWithUserData(kAudioSessionProperty_AudioRouteChange, sessionPropertyListener, self), "Couldn't remove audio session property listener");
 
   // Uninitialize and dispose the audio input unit
-  CheckError( AudioUnitUninitialize(self.inputUnit), "Couldn't uninitialize audio input unit");
-  CheckError( AudioComponentInstanceDispose(self.inputUnit), "Couldn't dispose of audio input unit");
-  self.inputUnit = nil;
+  CheckError( AudioUnitUninitialize(self.audioUnit), "Couldn't uninitialize audio input unit");
+  CheckError( AudioComponentInstanceDispose(self.audioUnit), "Couldn't dispose of audio input unit");
+  self.audioUnit = nil;
   
   
   _isSetUp = NO;
@@ -300,78 +357,25 @@ static pthread_mutex_t outputAudioFileLock;
     // Code inserted by Eric Larson for setting audio route
     // Get the set of available inputs. If there are no audio accessories attached, there will be
     // only one available input -- the built in microphone.
-//    NSArray* inputs = [session availableInputs];
-//    
-//    // Locate the Port corresponding to the built-in microphone.
-//    AVAudioSessionPortDescription* builtInMicPort = nil;
-//    for (AVAudioSessionPortDescription* port in inputs)
-//    {
-//        if ([port.portType isEqualToString:AVAudioSessionPortBuiltInMic])
-//        {
-//            builtInMicPort = port;
-//            break;
-//        }
-//    }
-//    
-//    // Print out a description of the data sources for the built-in microphone
-//    NSLog(@"There are %u data sources for port :\"%@\"", (unsigned)[builtInMicPort.dataSources count], builtInMicPort);
-//    NSLog(@"%@", builtInMicPort.dataSources);
-//    
-//    // loop over the built-in mic's data sources and attempt to locate the front microphone
-//    AVAudioSessionDataSourceDescription* frontDataSource = nil;
-//    for (AVAudioSessionDataSourceDescription* source in builtInMicPort.dataSources)
-//    {
-//        // other options:
-//        //      AVAudioSessionOrientation( Top | {Front} | Back | Bottom )
-//        if ([source.orientation isEqual:AVAudioSessionOrientationBottom])
-//        {
-//            frontDataSource = source;
-//            break;
-//        }
-//    } // end data source iteration
-//    
-//    if (frontDataSource)
-//    {
-//        NSLog(@"Currently selected source is \"%@\" for port \"%@\"", builtInMicPort.selectedDataSource.dataSourceName, builtInMicPort.portName);
-//        NSLog(@"Attempting to select source \"%@\" on port \"%@\"", frontDataSource, builtInMicPort.portName);
-//        
-//        // Set a preference for the front data source.
-//        error = nil;
-//        if (![builtInMicPort setPreferredDataSource:frontDataSource error:&error])
-//        {
-//            // an error occurred.
-//            NSLog(@"setPreferredDataSource failed");
-//        }
-//    }
-//    else{
-//        NSLog(@"Front Data Source is nil, cannot change source.");
-//    }
-//    
-//    // Make sure the built-in mic is selected for input. This will be a no-op if the built-in mic is
-//    // already the current input Port.
-//    error = nil;
-//    if(![session setPreferredInput:builtInMicPort error:&error]){
-//        NSLog(@"%@ Couldn't set mic as preferred port %@",
-//              NSStringFromSelector(_cmd), [error localizedDescription]);
-//        @throw error;
-//    }
+    [self setAudioRoute]; // currently does nothing
     
-    // Add a property listener, to listen to changes to the Route of Audio Input
-//    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-//    [nc addObserver:self selector:@selector(audioRouteChangedListener:) name:AVAudioSessionRouteChangeNotification object:nil];
     
     // Set the buffer size, this will affect the number of samples that get rendered every time the audio callback is fired
     // A small number will get you lower latency audio, but will make your processor work harder
-#if !TARGET_IPHONE_SIMULATOR
-    Float32 preferredBufferSize = 0.0232;
-    [session setPreferredIOBufferDuration:preferredBufferSize error:&error];
-    //CheckError( AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration, sizeof(preferredBufferSize), &preferredBufferSize), "Couldn't set the preferred buffer duration");
-#endif
+    Float32 preferredBufferSize = 1024.0/self.samplingRate; // 1024/44100 = 0.0232
 
+    [session setPreferredIOBufferDuration:preferredBufferSize error:&error];
+    if(error!=nil){
+        NSLog(@"Could not set preferred buffer duration, Error: %@",error.localizedDescription);
+    }
+    
+    [session setPreferredSampleRate: self.samplingRate error:&error];
+    if(error!=nil){
+        NSLog(@"Could not set preferred sample rate, Error: %@",error.localizedDescription);
+    }
+    
     
     [self checkSessionProperties];
-  
-    
     
     // ----- Audio Unit Setup -----
     // ----------------------------
@@ -385,12 +389,12 @@ static pthread_mutex_t outputAudioFileLock;
     
     // Get component
     AudioComponent inputComponent = AudioComponentFindNext(NULL, &inputDescription);
-    CheckError( AudioComponentInstanceNew(inputComponent, &_inputUnit), "Couldn't create the output audio unit");
+    CheckError( AudioComponentInstanceNew(inputComponent, &_audioUnit), "Couldn't create the output audio unit");
     
     
     // Enable input
     UInt32 one = 1;
-    CheckError( AudioUnitSetProperty(_inputUnit,
+    CheckError( AudioUnitSetProperty(_audioUnit,
                                      kAudioOutputUnitProperty_EnableIO, 
                                      kAudioUnitScope_Input, 
                                      kInputBus, 
@@ -402,7 +406,7 @@ static pthread_mutex_t outputAudioFileLock;
     
     UInt32 size;
 	size = sizeof( AudioStreamBasicDescription );
-	CheckError( AudioUnitGetProperty( _inputUnit,
+	CheckError( AudioUnitGetProperty( _audioUnit,
                                      kAudioUnitProperty_StreamFormat, 
                                      kAudioUnitScope_Input, 
                                      1, 
@@ -412,7 +416,7 @@ static pthread_mutex_t outputAudioFileLock;
 	
 	// Check the output stream format
 	size = sizeof( AudioStreamBasicDescription );
-	CheckError( AudioUnitGetProperty( _inputUnit,
+	CheckError( AudioUnitGetProperty( _audioUnit,
                                      kAudioUnitProperty_StreamFormat, 
                                      kAudioUnitScope_Output, 
                                      1, 
@@ -420,13 +424,13 @@ static pthread_mutex_t outputAudioFileLock;
                                      &size ), 
                "Couldn't get the hardware output stream format");
     
-    _inputFormat.mSampleRate = 44100.0;
-    _outputFormat.mSampleRate = 44100.0;
-    self.samplingRate = _inputFormat.mSampleRate;
+    _inputFormat.mSampleRate = self.samplingRate;
+    _outputFormat.mSampleRate = self.samplingRate;
+    //self.samplingRate = _inputFormat.mSampleRate;
     self.numBytesPerSample = _inputFormat.mBitsPerChannel / 8;
     
     size = sizeof(AudioStreamBasicDescription);
-	CheckError(AudioUnitSetProperty(_inputUnit,
+	CheckError(AudioUnitSetProperty(_audioUnit,
 									kAudioUnitProperty_StreamFormat,
 									kAudioUnitScope_Output,
 									kInputBus,
@@ -440,7 +444,7 @@ static pthread_mutex_t outputAudioFileLock;
     
     UInt32 numFramesPerBuffer;
     size = sizeof(UInt32);
-    CheckError(AudioUnitGetProperty(_inputUnit,
+    CheckError(AudioUnitGetProperty(_audioUnit,
                                     kAudioUnitProperty_MaximumFramesPerSlice,
                                     kAudioUnitScope_Global, 
                                     kOutputBus, 
@@ -498,7 +502,7 @@ static pthread_mutex_t outputAudioFileLock;
     callbackStruct.inputProc = inputCallback;
     callbackStruct.inputProcRefCon = (__bridge void *)(self);
     
-    CheckError( AudioUnitSetProperty(_inputUnit,
+    CheckError( AudioUnitSetProperty(_audioUnit,
                                      kAudioOutputUnitProperty_SetInputCallback, 
                                      kAudioUnitScope_Global,
                                      0, 
@@ -509,7 +513,7 @@ static pthread_mutex_t outputAudioFileLock;
     callbackStruct.inputProc = renderCallback;
     callbackStruct.inputProcRefCon = (__bridge void *)(self);
 
-    CheckError( AudioUnitSetProperty(_inputUnit,
+    CheckError( AudioUnitSetProperty(_audioUnit,
                                      kAudioUnitProperty_SetRenderCallback, 
                                      kAudioUnitScope_Input,
                                      0,
@@ -520,7 +524,7 @@ static pthread_mutex_t outputAudioFileLock;
     
     
     
-	CheckError(AudioUnitInitialize(_inputUnit), "Couldn't initialize the output unit");
+	CheckError(AudioUnitInitialize(_audioUnit), "Couldn't initialize the output unit");
 
   
 	_isSetUp = YES;
@@ -537,7 +541,7 @@ static pthread_mutex_t outputAudioFileLock;
         if(self.shouldSaveContinuouslySampledMicrophoneAudioDataToNewFile)
             [self closeAudioFileForWritingFromMicrophone];
         
-        CheckError( AudioOutputUnitStop(_inputUnit), "Couldn't stop the output unit");
+        CheckError( AudioOutputUnitStop(_audioUnit), "Couldn't stop the output unit");
 		self.playing = NO;
 	}
     
@@ -548,7 +552,7 @@ static pthread_mutex_t outputAudioFileLock;
     
     
     if(self.shouldUseAudioFromFile){ //Play from file
-        CheckError( AudioOutputUnitStop(_inputUnit), "Couldn't stop the output unit");
+        CheckError( AudioOutputUnitStop(_audioUnit), "Couldn't stop the output unit");
         
         // setup audio file for continuous reading
         float preferredTimeInterval = [self initAudioFileForReadingWithName:self.audioFileName];
@@ -581,7 +585,7 @@ static pthread_mutex_t outputAudioFileLock;
                 if(self.shouldSaveContinuouslySampledMicrophoneAudioDataToNewFile)
                    [self setupAudioFileForWritingFromMicrophone];
                 
-                CheckError( AudioOutputUnitStart(self.inputUnit), "Couldn't start the output unit");
+                CheckError( AudioOutputUnitStart(self.audioUnit), "Couldn't start the output unit");
                 self.playing = YES;
                 
             }
@@ -605,6 +609,7 @@ OSStatus inputCallback   (void						*inRefCon,
     
 	Novocaine *sm = (__bridge Novocaine *)inRefCon;
     
+    // setup rendering callback
     if (!sm.playing)
         return noErr;
     if (sm.inputBlock == nil)
@@ -619,7 +624,8 @@ OSStatus inputCallback   (void						*inRefCon,
     if( inNumberFrames == 471 )
         inNumberFrames = 470;
 #endif
-    CheckError( AudioUnitRender(sm.inputUnit, ioActionFlags, inTimeStamp, inOutputBusNumber, inNumberFrames, sm.inputBuffer), "Couldn't render the output unit");
+    // NSLog(@"Frames: %d",inNumberFrames); // had some weird stuff going on
+    CheckError( AudioUnitRender(sm.audioUnit, ioActionFlags, inTimeStamp, inOutputBusNumber, inNumberFrames, sm.inputBuffer), "Couldn't render the audio unit");
     
     
     // Convert the audio in something manageable
@@ -816,7 +822,7 @@ void sessionPropertyListener(void *                  inClientData,
     
     
     AVAudioSession *session = [AVAudioSession sharedInstance];
-    
+
     //CheckError( AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &propertySize, &route), "Couldn't check the audio route");
     //self.inputRoute = (NSString *)route;
     //CFRelease(route);
@@ -833,13 +839,14 @@ void sessionPropertyListener(void *                  inClientData,
 
 // To be run ONCE per session property change and once on initialization.
 - (void)checkSessionProperties
-{	
+{
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    
     NSLog(@"Checking session properties");
   
     // Check if there is input, and from where
     [self checkAudioSource];
     
-    AVAudioSession *session = [AVAudioSession sharedInstance];
     
     // Check the number of input channels.
     // Find the number of channels
@@ -856,9 +863,12 @@ void sessionPropertyListener(void *                  inClientData,
     
     
     // Get the hardware sampling rate. This is settable, but here we're only reading.
-
-    self.samplingRate = session.sampleRate;
-    NSLog(@"Current sampling rate: %f", self.samplingRate);
+    NSLog(@"Current sampling rate: Preferred:%.1f, Actual:%.1f", self.samplingRate, session.sampleRate);
+    
+    
+    NSLog(@"Actual Buffer Duration: %.4f, length %d", session.IOBufferDuration,
+          (UInt32)(session.IOBufferDuration*session.sampleRate+1));
+    
 	
 }
 
@@ -950,7 +960,7 @@ void CheckError(OSStatus error, const char *operation)
     
     
     AudioStreamBasicDescription audioFormat;
-    audioFormat.mSampleRate = 44100;
+    audioFormat.mSampleRate = self.samplingRate;
     audioFormat.mFormatID = kAudioFormatLinearPCM;
     audioFormat.mFormatFlags = kLinearPCMFormatFlagIsFloat;
     audioFormat.mBitsPerChannel = sizeof(Float32) * 8;
@@ -1085,7 +1095,7 @@ void CheckError(OSStatus error, const char *operation)
     
     AudioStreamBasicDescription audioFormat;
     
-    AudioStreamBasicDescription outputFileDesc = {44100.0,  kAudioFormatMPEG4AAC, 0, 0, 1024, 0, self.numInputChannels, 0, 0};
+    AudioStreamBasicDescription outputFileDesc = {self.samplingRate,  kAudioFormatMPEG4AAC, 0, 0, 1024, 0, self.numInputChannels, 0, 0};
     
     CheckError(ExtAudioFileCreateWithURL(outputFileURL, kAudioFileM4AType, &outputFileDesc, NULL, kAudioFileFlags_EraseFile, &_audioFileRefOutput), "Creating file");
     
