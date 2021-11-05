@@ -35,14 +35,17 @@ class MetalGraph {
         alpha: 1.0)
 
     //MARK: Dictionary Properties for saving state/data from user
-    private var vertexData: [String:[Float]] = [String: [Float]]()
+    private var vertexData: [String:[Float32]] = [String: [Float32]]()
     private var vertexBuffer: [String:MTLBuffer] = [String:MTLBuffer]()
     private var vertexColorBuffer: [String:MTLBuffer] = [String:MTLBuffer]()
-    private var vertexPointer: [String:UnsafeMutablePointer<Float>] = [String:UnsafeMutablePointer<Float>]()
+    private var vertexPointer: [String:UnsafeMutablePointer<Float32>] = [String:UnsafeMutablePointer<Float32>]()
     private var vertexNum: [String:Int] = [String:Int]()
+    private var vertexShowGrid: [String:Bool] = [String:Bool]()
     private var dsFactor: [String:Int] = [String:Int]()
-    private var vertexGain: [String:Float] = [String:Float]()
-    private var vertexBias: [String:Float] = [String:Float]()
+    private var vertexGain: [String:Float32] = [String:Float32]()
+    private var vertexBias: [String:Float32] = [String:Float32]()
+    private var boxBuffer:[String:MTLBuffer] = [String:MTLBuffer]()
+    private var boxColorBuffer:[String:MTLBuffer] = [String:MTLBuffer]()
     private var needsRender = false
     
     //MARK: iOS color palette with gradients
@@ -72,8 +75,9 @@ class MetalGraph {
         metalLayer.device = self.device
         metalLayer.pixelFormat = .bgra8Unorm
         metalLayer.framebufferOnly = true
-        metalLayer.frame = userView.bounds
         metalLayer.contentsScale = 2.0
+        metalLayer.frame = userView.bounds
+        
         userView.layer.insertSublayer(metalLayer, at:0)
     
         commandQueue = self.device.makeCommandQueue()
@@ -90,35 +94,58 @@ class MetalGraph {
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexFunction = vertexProgram
         pipelineStateDescriptor.fragmentFunction = fragmentProgram
-        pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
+        pipelineStateDescriptor.colorAttachments[0].pixelFormat = metalLayer.pixelFormat
         pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = false
             
         pipelineState = try! device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
         
-        //createBox()
     }
     
-    private var boxBuffer:MTLBuffer? = nil
-    private var boxColorBuffer:MTLBuffer? = nil
-    
-    private func createBox(){
-        let box:[Float] = [-0.75, 0.0,  0.0, 1.0,
-                           -0.75, 0.25, 0.0, 1.0,
-                            0.75, 0.25, 0.0, 1.0,
-                            0.75, 0.0, 0.0, 1.0,
-                           -0.75, 0.0, 0.0, 1.0]
+
+    private var gridLength:Int = 0
+    private func createGraphGrid(name:String,min:Float,max:Float){
+        let mid = (max-min)/2.0+min
+        let box:[Float32] = [-0.99, min,  0.0, 0.0, // primitve draw protect
+                           -0.99, min,  0.0, 1.0,
+                           -0.99, max, 0.0, 1.0,
+                            0.99, max, 0.0, 1.0,
+                            0.99, min, 0.0, 1.0,
+                           -0.99, min, 0.0, 1.0, // outer box
+                           -0.75, min,  0.0, 1.0,
+                           -0.75, max, 0.0, 1.0,
+                            0.75, max, 0.0, 1.0,
+                            0.75, min, 0.0, 1.0,
+                           -0.75, min, 0.0, 1.0, // outer quartile box
+                           -0.25, min,  0.0, 1.0,
+                           -0.25, max, 0.0, 1.0,
+                            0.25, max, 0.0, 1.0,
+                            0.25, min, 0.0, 1.0,
+                           -0.25, min, 0.0, 1.0, // inner quartile box
+                           -0.5,  min,  0.0, 1.0,
+                           -0.5,  max, 0.0, 1.0,
+                            0.5,  max, 0.0, 1.0,
+                            0.5,  min, 0.0, 1.0,
+                           -0.5,  min, 0.0, 1.0, // mid quartile box
+                            0.0,  min, 0.0, 1.0,
+                            0.0,  max, 0.0, 1.0, // mid line
+                           -0.99, max,  0.0, 1.0, // center line
+                           -0.99, mid,  0.0, 1.0,
+                            0.99, mid,  0.0, 1.0,
+                            0.99, mid,  0.0, 0.0 // primitve draw protect
+        ]
         
-        let boxColor:[Float] = Array.init(repeating: 0.5, count:box.count)
+        let boxColor:[Float32] = [Float32].init(repeating: 0.5, count:box.count)
+        gridLength = box.count
         
         var dataSize = box.count * MemoryLayout.size(ofValue: box[0])
-        boxBuffer = device.makeBuffer(bytes: box,
+        boxBuffer[name] = device.makeBuffer(bytes: box,
                                     length: dataSize,
-                                    options: .cpuCacheModeWriteCombined)
+                                    options: []) //cpuCacheModeWriteCombined
         
         dataSize = boxColor.count * MemoryLayout.size(ofValue: boxColor[0])
-        boxColorBuffer = device.makeBuffer(bytes: boxColor,
+        boxColorBuffer[name] = device.makeBuffer(bytes: boxColor,
                                     length: dataSize,
-                                    options: .cpuCacheModeWriteCombined)
+                                    options: [])
         
         
     }
@@ -143,11 +170,13 @@ class MetalGraph {
             
            
             // show graph boxes
-//            renderEncoder.setVertexBuffer(boxBuffer, offset: 0, index: 0)
-//            renderEncoder.setVertexBuffer(boxColorBuffer, offset: 0, index: 1)
-//            renderEncoder.drawPrimitives(type: .lineStrip,
-//                                         vertexStart: 0,
-//                                         vertexCount: 20)
+            for (key,_) in boxBuffer{
+                renderEncoder.setVertexBuffer(boxBuffer[key], offset: 0, index: 0)
+                renderEncoder.setVertexBuffer(boxColorBuffer[key], offset: 0, index: 1)
+                renderEncoder.drawPrimitives(type: .lineStrip,
+                                             vertexStart: 0,
+                                             vertexCount: gridLength-2)
+            }
             
             
             // for each graph, update the values for the line
@@ -208,6 +237,20 @@ class MetalGraph {
                   withGain:Float,
                   withBias:Float,
                   numPointsInGraph:Int){
+        
+        self.addGraph(withName: withName,
+                      withGain: withGain,
+                      withBias: withBias,
+                      numPointsInGraph: numPointsInGraph,
+                      showGrid: true
+        )
+    }
+    
+    func addGraph(withName:String,
+                  withGain:Float,
+                  withBias:Float,
+                  numPointsInGraph:Int,
+                  showGrid:Bool){
         //setup graph
         let key = withName
         let numGraphs = Int(vertexData.count)
@@ -245,21 +288,46 @@ class MetalGraph {
         // when we want to update the data, we can simply use this pointer and vDSP
         
         // now make a color buffer, that we setup once and then forget about
-        var vertexColorData:[Float] = Array.init(repeating: 1.0, count: (numPointsInGraph/dsFactor[key]!)*GraphConstants.numShaderFloats)
-        //setup colors in a gradient within one spectra of color pallette
-        var gradOne:Float = 0.0
-        var gradTwo:Float = 0.0
+        var vertexColorData:[Float32] = Array.init(repeating: 1.0, count: (numPointsInGraph/dsFactor[key]!)*GraphConstants.numShaderFloats)
+
+        
+        let b:Float32 = Float32(B[(2*numGraphs)%16])/255.0
+        let g:Float32 = Float32(G[(2*numGraphs)%16])/255.0
+        let r:Float32 = Float32(R[(2*numGraphs)%16])/255.0
+        let a:Float32 = Float32(0.9)
         for j in 0..<maxIdx{
-            // setup color gradient for each line
-            gradOne = Float(j)/Float(maxIdx)
-            gradTwo = 1.0-gradOne
+
             // B, G, R, A
-            vertexColorData[j*GraphConstants.numShaderFloats] = (Float(B[(2*numGraphs)%16])*gradOne + Float(B[(2*numGraphs+1)%16])*gradTwo)/255.0
-            vertexColorData[j*GraphConstants.numShaderFloats+1] = (Float(G[(2*numGraphs)%16])*gradOne + Float(G[(2*numGraphs+1)%16])*gradTwo)/255.0
-            vertexColorData[j*GraphConstants.numShaderFloats+2] = (Float(R[(2*numGraphs)%16])*gradOne + Float(R[(2*numGraphs+1)%16])*gradTwo)/255.0
-            vertexColorData[j*GraphConstants.numShaderFloats+3] = 0.9
+            vertexColorData[j*GraphConstants.numShaderFloats] = b
+            vertexColorData[j*GraphConstants.numShaderFloats+1] = g
+            vertexColorData[j*GraphConstants.numShaderFloats+2] = r
+            vertexColorData[j*GraphConstants.numShaderFloats+3] = a
+            // hack to get the added colors from showing up
+            if j <= 1 || j >= maxIdx-2{
+                vertexColorData[j*GraphConstants.numShaderFloats] = 0.0
+                vertexColorData[j*GraphConstants.numShaderFloats+1] = 0.0
+                vertexColorData[j*GraphConstants.numShaderFloats+2] = 0.0
+                vertexColorData[j*GraphConstants.numShaderFloats+3] = 0.0
+            }
         }
         vertexColorBuffer[key] = device.makeBuffer(bytes: vertexColorData, length: dataSize, options: [])
+        
+        // now save if we should have a grid for this graph
+        vertexShowGrid[key] = showGrid
+
+    }
+    
+    func makeGrids(){
+        for (forKey,_) in vertexBuffer{
+            if vertexShowGrid[forKey]!{
+                let numGraphs = Float(vertexData.count)
+                let addToPlot = -1.0 + 2*(Float(vertexNum[forKey]!) / numGraphs) + 1.0/numGraphs
+                // get to midpoint of plot on screen
+                let minVal:Float = addToPlot - (0.9 / numGraphs)
+                let maxVal:Float = addToPlot + (0.9 / numGraphs)
+                createGraphGrid(name:forKey, min: minVal, max: maxVal)
+            }
+        }
     }
     
     func updateGraph(data:[Float], forKey:String){
@@ -272,8 +340,8 @@ class MetalGraph {
             var multiplier:Float = 1.0
             
             // get to midpoint of plot on screen
-            var minVal:Float = addToPlot - (0.99 / numGraphs)
-            var maxVal:Float = addToPlot + (0.99 / numGraphs)
+            var minVal:Float = addToPlot - (0.89 / numGraphs)
+            var maxVal:Float = addToPlot + (0.89 / numGraphs)
             
             // now add custom normalizations
             addToPlot += vertexBias[forKey]!/(vertexGain[forKey]! * numGraphs)

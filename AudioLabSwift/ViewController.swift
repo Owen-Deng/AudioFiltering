@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        graph?.setBackgroundColor(r: 0, g: 0, b: 0, a: 1)
         // add in graphs for display
         graph?.addGraph(withName: "fft",
                         shouldNormalizeForFFT: true,
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         graph?.addGraph(withName: "time",
             numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
         
-        
+        graph?.makeGrids() // add grids to graph
         
         // start up the audio model here, querying microphone
         audio.startMicrophoneProcessing(withFps: 10)
