@@ -15,6 +15,7 @@ import Metal
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var userView: UIView!
     struct AudioConstants{
         static let AUDIO_BUFFER_SIZE = 1024*4
     }
@@ -22,7 +23,7 @@ class ViewController: UIViewController {
     // setup audio model
     let audio = AudioModel(buffer_size: AudioConstants.AUDIO_BUFFER_SIZE)
     lazy var graph:MetalGraph? = {
-        return MetalGraph(userView: self.view)
+        return MetalGraph(userView: self.userView)
     }()
     
     
@@ -31,7 +32,10 @@ class ViewController: UIViewController {
         
         if let graph = self.graph{
             graph.setBackgroundColor(r: 0, g: 0, b: 0, a: 1)
+            
             // add in graphs for display
+            // note that we need to normalize the scale of this graph
+            // becasue the fft is returned in dB which has very large negative values and some large positive values
             graph.addGraph(withName: "fft",
                             shouldNormalizeForFFT: true,
                             numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/2)
@@ -43,32 +47,31 @@ class ViewController: UIViewController {
         }
         
         // start up the audio model here, querying microphone
-        audio.startMicrophoneProcessing(withFps: 10)
+        audio.startMicrophoneProcessing(withFps: 20) // preferred number of FFT calculations per second
 
         audio.play()
         
         // run the loop for updating the graph peridocially
-        Timer.scheduledTimer(timeInterval: 0.05, target: self,
-            selector: #selector(self.updateGraph),
-            userInfo: nil,
-            repeats: true)
+        Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
+            self.updateGraph()
+        }
        
     }
     
     // periodically, update the graph with refreshed FFT Data
-    @objc
     func updateGraph(){
-        self.graph?.updateGraph(
-            data: self.audio.fftData,
-            forKey: "fft"
-        )
         
-        self.graph?.updateGraph(
-            data: self.audio.timeData,
-            forKey: "time"
-        )
-        
-        
+        if let graph = self.graph{
+            graph.updateGraph(
+                data: self.audio.fftData,
+                forKey: "fft"
+            )
+            
+            graph.updateGraph(
+                data: self.audio.timeData,
+                forKey: "time"
+            )
+        }
         
     }
     

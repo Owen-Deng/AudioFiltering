@@ -34,10 +34,10 @@ class AudioModel {
             
             // repeat this fps times per second using the timer class
             //   every time this is called, we update the arrays "timeData" and "fftData"
-            Timer.scheduledTimer(timeInterval: 1.0/withFps, target: self,
-                                 selector: #selector(self.runEveryInterval),
-                                 userInfo: nil,
-                                 repeats: true)
+            Timer.scheduledTimer(withTimeInterval: 1.0/withFps, repeats: true) { _ in
+                self.runEveryInterval()
+            }
+            
         }
     }
     
@@ -73,7 +73,6 @@ class AudioModel {
     
     //==========================================
     // MARK: Model Callback Methods
-    @objc
     private func runEveryInterval(){
         if inputBuffer != nil {
             // copy time data to swift array
