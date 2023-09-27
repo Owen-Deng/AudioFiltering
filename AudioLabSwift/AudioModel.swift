@@ -17,8 +17,8 @@ class AudioModel {
     // the user can access these arrays at any time and plot them if they like
     var timeData:[Float]
     var fftData:[Float]
-    lazy var samplingRate = {
-        return self.audioManager?.samplingRate
+    lazy var samplingRate:Int = {
+        return Int(self.audioManager!.samplingRate)
     }()
     
     // MARK: Public Methods
@@ -79,12 +79,12 @@ class AudioModel {
     private func runEveryInterval(){
         if inputBuffer != nil {
             // copy time data to swift array
-            self.inputBuffer!.fetchFreshData(&timeData,
+            self.inputBuffer!.fetchFreshData(&timeData, // copied into this array
                                              withNumSamples: Int64(BUFFER_SIZE))
             
             // now take FFT
             fftHelper!.performForwardFFT(withData: &timeData,
-                                         andCopydBMagnitudeToBuffer: &fftData)
+                                         andCopydBMagnitudeToBuffer: &fftData) // fft result is copied into fftData array
             
             // at this point, we have saved the data to the arrays:
             //   timeData: the raw audio samples
