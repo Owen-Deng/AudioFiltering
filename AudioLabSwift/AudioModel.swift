@@ -17,6 +17,9 @@ class AudioModel {
     // the user can access these arrays at any time and plot them if they like
     var timeData:[Float]
     var fftData:[Float]
+    lazy var samplingRate = {
+        return self.audioManager?.samplingRate
+    }()
     
     // MARK: Public Methods
     init(buffer_size:Int) {

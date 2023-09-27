@@ -18,16 +18,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YB8-JK-DSb">
-                                <rect key="frame" x="20" y="48" width="374" height="405"/>
+                                <rect key="frame" x="20" y="48" width="374" height="660"/>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="405" id="gzF-q7-3S9"/>
-                                </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j2d-ef-Pho">
-                                <rect key="frame" x="20" y="461" width="374" height="146"/>
+                                <rect key="frame" x="20" y="716" width="374" height="146"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="146" id="T3n-o9-0M8"/>
+                                    <constraint firstAttribute="height" constant="146" id="QOe-xv-XKQ"/>
                                 </constraints>
                                 <string key="text">The view above is used as a placholder for the metal graph class to display into. It allows you to manipualte position and size of the graph locations.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -38,12 +35,13 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YB8-JK-DSb" secondAttribute="trailing" constant="20" id="07I-rt-aUI"/>
-                            <constraint firstItem="j2d-ef-Pho" firstAttribute="top" secondItem="YB8-JK-DSb" secondAttribute="bottom" constant="8" symbolic="YES" id="4wO-Dq-EiC"/>
-                            <constraint firstItem="YB8-JK-DSb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="CG7-N7-eeg"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="j2d-ef-Pho" secondAttribute="trailing" constant="20" id="R5b-5d-esr"/>
-                            <constraint firstItem="YB8-JK-DSb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="ksd-gZ-nu1"/>
-                            <constraint firstItem="j2d-ef-Pho" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="nzJ-WD-5Yk"/>
+                            <constraint firstItem="j2d-ef-Pho" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="MkP-5u-uBM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="j2d-ef-Pho" secondAttribute="trailing" constant="20" id="PXS-1i-IIV"/>
+                            <constraint firstItem="YB8-JK-DSb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="XCz-tP-1dG"/>
+                            <constraint firstItem="YB8-JK-DSb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Z3F-Pa-guW"/>
+                            <constraint firstItem="j2d-ef-Pho" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="a2Z-jM-B3a"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YB8-JK-DSb" secondAttribute="trailing" constant="20" id="a5m-Kv-PKF"/>
+                            <constraint firstItem="j2d-ef-Pho" firstAttribute="top" secondItem="YB8-JK-DSb" secondAttribute="bottom" constant="8" symbolic="YES" id="jK7-n5-BM5"/>
                         </constraints>
                     </view>
                     <connections>

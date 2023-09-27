@@ -35,13 +35,22 @@ class ViewController: UIViewController {
             
             // add in graphs for display
             // note that we need to normalize the scale of this graph
-            // becasue the fft is returned in dB which has very large negative values and some large positive values
+            // because the fft is returned in dB which has very large negative values and some large positive values
+            
+            // BONUS: lets also display a version of the FFT that is zoomed in
+            graph.addGraph(withName: "fftZoomed",
+                            shouldNormalizeForFFT: true,
+                            numPointsInGraph: 300) // 300 points here, seems good
+            
+            
             graph.addGraph(withName: "fft",
                             shouldNormalizeForFFT: true,
                             numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/2)
             
             graph.addGraph(withName: "time",
                 numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
+            
+            
             
             graph.makeGrids() // add grids to graph
         }
@@ -71,6 +80,17 @@ class ViewController: UIViewController {
                 data: self.audio.timeData,
                 forKey: "time"
             )
+            
+            // BONUS: show the zoomed FFT
+            // we can start at about 150Hz and show the next 100 points
+            // actual Hz = f_0 * N/F_s
+            let startIdx:Int = 150 * AudioConstants.AUDIO_BUFFER_SIZE/Int(audio.samplingRate!)
+            let subArray:[Float] = Array(self.audio.fftData[startIdx...startIdx+300])
+            graph.updateGraph(
+                data: subArray,
+                forKey: "fftZoomed"
+            )
+            
         }
         
     }
