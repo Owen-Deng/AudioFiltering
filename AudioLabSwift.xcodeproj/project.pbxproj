@@ -33,16 +33,16 @@
 		B65B5A6524F440A100E74E73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B65B5A6724F440A100E74E73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B65B5A6D24F440D500E74E73 /* AudioLabSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AudioLabSwift-Bridging-Header.h"; sourceTree = "<group>"; };
-		B65B5A6E24F440D600E74E73 /* Novocaine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Novocaine.h; path = AudioDSPUtils/Novocaine.h; sourceTree = SOURCE_ROOT; };
-		B65B5A6F24F440D600E74E73 /* Novocaine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Novocaine.m; path = AudioDSPUtils/Novocaine.m; sourceTree = SOURCE_ROOT; };
-		B65B5A7124F443A400E74E73 /* AudioFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioFileReader.m; path = AudioDSPUtils/AudioFileReader.m; sourceTree = SOURCE_ROOT; };
-		B65B5A7224F443A400E74E73 /* AudioFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFileReader.h; path = AudioDSPUtils/AudioFileReader.h; sourceTree = SOURCE_ROOT; };
+		B65B5A6E24F440D600E74E73 /* Novocaine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Novocaine.h; path = AudioLabSwift/Utilities/Novocaine.h; sourceTree = SOURCE_ROOT; };
+		B65B5A6F24F440D600E74E73 /* Novocaine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Novocaine.m; path = AudioLabSwift/Utilities/Novocaine.m; sourceTree = SOURCE_ROOT; };
+		B65B5A7124F443A400E74E73 /* AudioFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioFileReader.m; path = AudioLabSwift/Utilities/AudioFileReader.m; sourceTree = SOURCE_ROOT; };
+		B65B5A7224F443A400E74E73 /* AudioFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFileReader.h; path = AudioLabSwift/Utilities/AudioFileReader.h; sourceTree = SOURCE_ROOT; };
 		B65B5A7424F4440300E74E73 /* satisfaction.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = satisfaction.mp3; sourceTree = "<group>"; };
-		B65B5A7624F444CE00E74E73 /* CircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircularBuffer.m; path = AudioDSPUtils/CircularBuffer.m; sourceTree = SOURCE_ROOT; };
-		B65B5A7724F444CE00E74E73 /* CircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircularBuffer.h; path = AudioDSPUtils/CircularBuffer.h; sourceTree = SOURCE_ROOT; };
+		B65B5A7624F444CE00E74E73 /* CircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircularBuffer.m; path = AudioLabSwift/Utilities/CircularBuffer.m; sourceTree = SOURCE_ROOT; };
+		B65B5A7724F444CE00E74E73 /* CircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircularBuffer.h; path = AudioLabSwift/Utilities/CircularBuffer.h; sourceTree = SOURCE_ROOT; };
 		B65B5A7924F4523C00E74E73 /* AudioModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModel.swift; sourceTree = "<group>"; };
-		B65B5A7B24F458D700E74E73 /* FFTHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFTHelper.m; path = AudioDSPUtils/FFTHelper.m; sourceTree = SOURCE_ROOT; };
-		B65B5A7C24F458D700E74E73 /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTHelper.h; path = AudioDSPUtils/FFTHelper.h; sourceTree = SOURCE_ROOT; };
+		B65B5A7B24F458D700E74E73 /* FFTHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFTHelper.m; path = AudioLabSwift/Utilities/FFTHelper.m; sourceTree = SOURCE_ROOT; };
+		B65B5A7C24F458D700E74E73 /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTHelper.h; path = AudioLabSwift/Utilities/FFTHelper.h; sourceTree = SOURCE_ROOT; };
 		B65B5A7E24F4798B00E74E73 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalGraph.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,18 +78,10 @@
 		B65B5A5824F4409F00E74E73 /* AudioLabSwift */ = {
 			isa = PBXGroup;
 			children = (
-				B65B5A6E24F440D600E74E73 /* Novocaine.h */,
-				B65B5A6F24F440D600E74E73 /* Novocaine.m */,
-				B65B5A7724F444CE00E74E73 /* CircularBuffer.h */,
-				B65B5A7624F444CE00E74E73 /* CircularBuffer.m */,
-				B65B5A7224F443A400E74E73 /* AudioFileReader.h */,
-				B65B5A7124F443A400E74E73 /* AudioFileReader.m */,
-				B65B5A7C24F458D700E74E73 /* FFTHelper.h */,
-				B65B5A7B24F458D700E74E73 /* FFTHelper.m */,
+				B6BE4C9A2AC47F7100488FE3 /* Utilities */,
 				B65B5A5924F4409F00E74E73 /* AppDelegate.swift */,
 				B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */,
 				B65B5A5D24F4409F00E74E73 /* ViewController.swift */,
-				B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */,
 				B65B5A7924F4523C00E74E73 /* AudioModel.swift */,
 				B65B5A5F24F4409F00E74E73 /* Main.storyboard */,
 				B65B5A6224F440A100E74E73 /* Assets.xcassets */,
@@ -99,6 +91,22 @@
 				B65B5A7424F4440300E74E73 /* satisfaction.mp3 */,
 			);
 			path = AudioLabSwift;
+			sourceTree = "<group>";
+		};
+		B6BE4C9A2AC47F7100488FE3 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B65B5A6E24F440D600E74E73 /* Novocaine.h */,
+				B65B5A6F24F440D600E74E73 /* Novocaine.m */,
+				B65B5A7724F444CE00E74E73 /* CircularBuffer.h */,
+				B65B5A7624F444CE00E74E73 /* CircularBuffer.m */,
+				B65B5A7224F443A400E74E73 /* AudioFileReader.h */,
+				B65B5A7124F443A400E74E73 /* AudioFileReader.m */,
+				B65B5A7C24F458D700E74E73 /* FFTHelper.h */,
+				B65B5A7B24F458D700E74E73 /* FFTHelper.m */,
+				B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
