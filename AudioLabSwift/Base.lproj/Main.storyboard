@@ -34,6 +34,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Qg-na-M0w">
+                                <rect key="frame" x="141" y="663" width="133" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Start ModuleB"/>
+                                <connections>
+                                    <segue destination="G3p-AF-wjr" kind="showDetail" id="G9d-lc-FMA"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -53,6 +62,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="85.714285714285708"/>
+        </scene>
+        <!--ModuleBVC-->
+        <scene sceneID="1ZV-gM-QKO">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ModuleB" referencedIdentifier="ModuleBVC" id="G3p-AF-wjr" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="hYZ-bq-QKG"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wpb-9k-FHc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="875" y="86"/>
         </scene>
     </scenes>
     <resources>
