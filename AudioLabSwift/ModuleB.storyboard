@@ -80,7 +80,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="0jC-0e-fbd"/>
                     <connections>
+                        <outlet property="gesturingLabel" destination="9pm-Ny-Tjc" id="WZJ-gb-UHt"/>
                         <outlet property="graphUIView" destination="kAf-Ms-mOI" id="CUv-LV-Xga"/>
+                        <outlet property="playingHzSlider" destination="Bcq-8h-jEn" id="r3R-cw-QrV"/>
+                        <outlet property="playingLabel" destination="dBl-Go-zKS" id="m7w-g0-3Ke"/>
+                        <outlet property="playingSwitch" destination="78Z-uY-lIs" id="Nfm-Aw-pd8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

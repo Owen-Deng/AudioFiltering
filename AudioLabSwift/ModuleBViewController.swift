@@ -12,6 +12,12 @@ class ModuleBViewController: UIViewController {
 
     //setup UI, constants, AudioModel
     @IBOutlet weak var graphUIView: UIView!
+    @IBOutlet weak var playingLabel: UILabel!
+    @IBOutlet weak var playingSwitch: UISwitch!
+    @IBOutlet weak var playingHzSlider: UISlider!
+    @IBOutlet weak var gesturingLabel: UILabel!
+    
+    //setup constants
     struct AudioConstants{
         static let AUDIO_BUFFER_SIZE=1024*4
         static let FFT_BUFFER_SIZE=AUDIO_BUFFER_SIZE/2
@@ -46,19 +52,28 @@ class ModuleBViewController: UIViewController {
         audio.startMicrophoneProcessing(withFps: Double(AudioConstants.AUDIO_FPS))
         audio.play()
         Timer.scheduledTimer(withTimeInterval: 1.0/Double(AudioConstants.AUDIO_FPS), repeats: true){_ in self.updateGraph()}
+        setDefaultUI() // stat the vc and set ui in default
     }
     
+    
+    // set the default state of several views
+    func setDefaultUI(){
+        playingLabel.text="not Playing"
+        playingSwitch.isOn=false
+        playingHzSlider.value=0
+        gesturingLabel.isHidden=true
+    }
     
     
     // setup the updataGraph func to update the uiview
     func updateGraph(){
         if let graph=self.graph{
             graph.updateGraph(data: self.audio.fftData, forKey: "fft")
-            
             graph.updateGraph(data: self.audio.timeData, forKey: "time")
             
         }
     }
+    
     
 
     /*
