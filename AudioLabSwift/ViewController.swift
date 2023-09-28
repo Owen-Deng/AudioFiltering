@@ -15,16 +15,19 @@ import Metal
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var loudestLabel: UILabel!
     @IBOutlet weak var userView: UIView!
     struct AudioConstants{
-        static let AUDIO_BUFFER_SIZE = 1024*4
+        static let AUDIO_BUFFER_SIZE = Int(Novocaine.audioManager().samplingRate / 3)
+        static let FFT_ZOOMED_SIZE = 300
     }
     
     // setup audio model
-    let audio = AudioModel(buffer_size: AudioConstants.AUDIO_BUFFER_SIZE)
+    let audio = AudioModel(buffer_size: AudioConstants.AUDIO_BUFFER_SIZE, fft_zoomed_size: AudioConstants.FFT_ZOOMED_SIZE)
     lazy var graph:MetalGraph? = {
         return MetalGraph(userView: self.userView)
     }()
+    
     
     
     override func viewDidLoad() {
@@ -40,7 +43,7 @@ class ViewController: UIViewController {
             // BONUS: lets also display a version of the FFT that is zoomed in
             graph.addGraph(withName: "fftZoomed",
                             shouldNormalizeForFFT: true,
-                            numPointsInGraph: 300) // 300 points to display
+                           numPointsInGraph: AudioConstants.FFT_ZOOMED_SIZE) // 300 points to display
             
             
             graph.addGraph(withName: "fft",
@@ -64,6 +67,7 @@ class ViewController: UIViewController {
         Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
             self.updateGraph()
         }
+        
        
     }
     
@@ -81,18 +85,21 @@ class ViewController: UIViewController {
                 forKey: "time"
             )
             
-            // BONUS: show the zoomed FFT
-            // we can start at about 150Hz and show the next 300 points
-            // actual Hz = f_0 * N/F_s
-            let startIdx:Int = 150 * AudioConstants.AUDIO_BUFFER_SIZE/audio.samplingRate
-            let subArray:[Float] = Array(self.audio.fftData[startIdx...startIdx+300])
             graph.updateGraph(
-                data: subArray,
+                data: self.audio.fftZoomedData,
                 forKey: "fftZoomed"
             )
-            
         }
         
+        let twoLoudestTones = audio.getTwoLoudestTones()
+        if twoLoudestTones.count == 2{
+            loudestLabel.text = "\(twoLoudestTones[0]), \(twoLoudestTones[1])"
+        }
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        audio.stop()
     }
     
     
