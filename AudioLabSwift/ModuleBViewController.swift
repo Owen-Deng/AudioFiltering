@@ -10,12 +10,17 @@ import UIKit
 
 class ModuleBViewController: UIViewController {
 
-    
+    //setup UI, constants, AudioModel
     @IBOutlet weak var graphUIView: UIView!
     struct AudioConstants{
         static let AUDIO_BUFFER_SIZE=1024*4
         static let FFT_BUFFER_SIZE=AUDIO_BUFFER_SIZE/2
+        static let AUDIO_FPS=20
     }
+    
+  
+    var audio=AudioModel.sharedInstance
+    
     
     
     //Setup the graph
@@ -35,6 +40,23 @@ class ModuleBViewController: UIViewController {
             graph.setBackgroundColor(r: 0, g: 0, b: 0, a: 1)
             graph.addGraph(withName: "fft",shouldNormalizeForFFT: true, numPointsInGraph: AudioConstants.FFT_BUFFER_SIZE)
             graph.addGraph(withName: "time", numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
+            graph.makeGrids()
+        }
+        
+        audio.startMicrophoneProcessing(withFps: Double(AudioConstants.AUDIO_FPS))
+        audio.play()
+        Timer.scheduledTimer(withTimeInterval: 1.0/Double(AudioConstants.AUDIO_FPS), repeats: true){_ in self.updateGraph()}
+    }
+    
+    
+    
+    // setup the updataGraph func to update the uiview
+    func updateGraph(){
+        if let graph=self.graph{
+            graph.updateGraph(data: self.audio.fftData, forKey: "fft")
+            
+            graph.updateGraph(data: self.audio.timeData, forKey: "time")
+            
         }
     }
     

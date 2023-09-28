@@ -12,15 +12,18 @@ import Accelerate
 class AudioModel {
     
     // MARK: Properties
-    private var BUFFER_SIZE:Int
+    private var BUFFER_SIZE:Int=1024*4//init this for sharedInstance
     // thse properties are for interfaceing with the API
     // the user can access these arrays at any time and plot them if they like
     var timeData:[Float]
     var fftData:[Float]
     
+    static var sharedInstance=AudioModel()//add this for sharedInstance
+    
+    
     // MARK: Public Methods
-    init(buffer_size:Int) {
-        BUFFER_SIZE = buffer_size
+    // rewrite hte AudioModel for sharedInstant
+    init() {
         // anything not lazily instatntiated should be allocated here
         timeData = Array.init(repeating: 0.0, count: BUFFER_SIZE)
         fftData = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
