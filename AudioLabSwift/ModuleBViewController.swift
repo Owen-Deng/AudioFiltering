@@ -22,6 +22,7 @@ class ModuleBViewController: UIViewController {
         static let AUDIO_BUFFER_SIZE=1024*4
         static let FFT_BUFFER_SIZE=AUDIO_BUFFER_SIZE/2
         static let AUDIO_FPS=20
+        static let ZOOMEDFFT_POINT_COUNT=100
     }
     
   
@@ -46,6 +47,7 @@ class ModuleBViewController: UIViewController {
             graph.setBackgroundColor(r: 0, g: 0, b: 0, a: 1)
             graph.addGraph(withName: "fft",shouldNormalizeForFFT: true, numPointsInGraph: AudioConstants.FFT_BUFFER_SIZE)
             graph.addGraph(withName: "time", numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
+            graph.addGraph(withName: "zoomedfft", shouldNormalizeForFFT: true, numPointsInGraph: AudioConstants.ZOOMEDFFT_POINT_COUNT)
             graph.makeGrids()
         }
         
@@ -70,6 +72,24 @@ class ModuleBViewController: UIViewController {
         if let graph=self.graph{
             graph.updateGraph(data: self.audio.fftData, forKey: "fft")
             graph.updateGraph(data: self.audio.timeData, forKey: "time")
+            if playingSwitch.isOn{
+                //get the 600 point from the 300left of tone and 300 right of. if start is less than 0 than from 0
+                
+                var startIndex:Int =  (Int(playingHzSlider.value)*AudioConstants.AUDIO_BUFFER_SIZE/Int(audio.samplingRate)-(AudioConstants.ZOOMEDFFT_POINT_COUNT/2)) // sampleingRate 48khz ,fftdata.count 2048 , buffersize 4096. if slider 18k
+                if startIndex<0{
+                    startIndex =  0//the left of the fftbuffer range
+                }else if startIndex>(AudioConstants.AUDIO_BUFFER_SIZE/2-AudioConstants.ZOOMEDFFT_POINT_COUNT){
+                    startIndex = AudioConstants.AUDIO_BUFFER_SIZE/2-AudioConstants.ZOOMEDFFT_POINT_COUNT //the right bound of the fftbuffer range
+                }
+                
+                let subFftArray:[Float]=Array(self.audio.fftData[startIndex...startIndex+AudioConstants.ZOOMEDFFT_POINT_COUNT-1])
+                print("sub array count\(subFftArray.count)")
+                print("start at \(startIndex) and fftdat.count:\(self.audio.fftData.count)")
+                
+                
+                graph.updateGraph(data: subFftArray, forKey: "zoomedfft")
+                
+            }
             
         } 
     }

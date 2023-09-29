@@ -32,6 +32,9 @@ class AudioModel {
     private var phase:Float=0.0
     private var phaseIncrement:Float=0.0
     private var sineWaveRepeatMax:Float=Float(2*Double.pi)
+    lazy var  samplingRate :Int={
+        return Int(self.audioManager!.samplingRate)
+    }()
     //==============================
     
     // MARK: Public Methods
