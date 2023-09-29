@@ -13,13 +13,17 @@ class AudioModel {
     
     // MARK: Properties
     private var BUFFER_SIZE:Int
+    private var WINDOW_SIZE:Int
+    private var HALF_WINDOW_SIZE:Int
+    private var THRESHOLD:Float
+
     // thse properties are for interfaceing with the API
     // the user can access these arrays at any time and plot them if they like
     var timeData:[Float]
     var fftData:[Float]
     var fftZoomedData:[Float]
-    var loudestTones:Array<Int>
-    lazy var serialQueue:DispatchQueue = {
+    private var loudestTones:Array<Int>
+    private lazy var serialQueue:DispatchQueue = {
         return DispatchQueue(label: "swiftlee.serial.queue")
     }()
     
@@ -27,11 +31,19 @@ class AudioModel {
         return Int(self.audioManager!.samplingRate)
     }()
     
+    // Hz between two data points
+    lazy var deltaF:Float = {
+        return Float(self.audioManager!.samplingRate) / Float(BUFFER_SIZE)
+    }()
+    
     // MARK: Public Methods
     init(buffer_size:Int, fft_zoomed_size:Int) {
         BUFFER_SIZE = buffer_size
-        //BUFFER_SIZE = Int(Novocaine.audioManager().samplingRate / 3)
-        print("Sampling Rate: \(BUFFER_SIZE)")
+        THRESHOLD = 5.0
+        WINDOW_SIZE = 9
+        HALF_WINDOW_SIZE = Int(WINDOW_SIZE / 2)
+        //DELTA_F = Float(self.audioManager!.samplingRate) / Float(BUFFER_SIZE)
+
         // anything not lazily instatntiated should be allocated here
         timeData = Array.init(repeating: 0.0, count: BUFFER_SIZE)
         fftData = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
@@ -103,52 +115,44 @@ class AudioModel {
                 self.fftHelper!.performForwardFFT(withData: &self.timeData,
                                                   andCopydBMagnitudeToBuffer: &self.fftData) // fft result is copied into fftData array
                 
-                // at this point, we have saved the data to the arrays:
-                //   timeData: the raw audio samples
-                //   fftData:  the FFT of those same samples
-                // the user can now use these variables however they like
                 // BONUS: show the zoomed FFT
                 // we can start at about 150Hz and show the next 300 points
                 // actual Hz = f_0 * N/F_s
                 let startIdx:Int = 150 * self.BUFFER_SIZE / self.samplingRate
                 self.fftZoomedData = Array(self.fftData[startIdx...startIdx+300])
                 
-                //self.findMaxUsingDilation()
-                
-                // calculate maximums by shifting the window
-                let window_size = 9
-                let threshold:Float = 5
+                // calculate two maximums by shifting the window
                 var maxIdx1 = 0
                 var maxIdx2 = 0
                 var max1:Float = 0.0
                 var max2:Float = 0.0
-                for i in 0 ..< self.BUFFER_SIZE/2-window_size{
-                    let mid = Int(window_size/2)
-                    if self.fftData[i+mid] < threshold || self.fftData[i..<i+window_size].max()! != self.fftData[i+mid]{
+                var middle:Int
+                for i in 0 ..< self.BUFFER_SIZE/2-self.WINDOW_SIZE{
+                    middle = i + self.HALF_WINDOW_SIZE
+                    if self.fftData[middle] < self.THRESHOLD || self.fftData[i..<i+self.WINDOW_SIZE].max()! != self.fftData[middle]{
                         continue
                     }
-                    if self.fftData[i+mid] > max1{
-                        max2 = max1
+                    if self.fftData[middle] > max1{
+                        max2 = max1 // move the second loudest tone to max2
                         maxIdx2 = maxIdx1
-                        max1 = self.fftData[i+mid]
-                        maxIdx1 = i+mid
-                    }else if self.fftData[i+mid] > max2{
-                        max2 = self.fftData[i+mid]
-                        maxIdx2 = i+mid
+                        max1 = self.fftData[middle]
+                        maxIdx1 = middle
+                    }else if self.fftData[middle] > max2{
+                        max2 = self.fftData[middle]
+                        maxIdx2 = middle
                     }
                 }
                 if maxIdx1 != 0 && maxIdx2 != 0{
                     //self.loudestTones[0] = self.peakInterpolation(index: maxIdx1)
-                    self.loudestTones[0] = maxIdx1 * self.samplingRate / self.BUFFER_SIZE
-                    self.loudestTones[1] = maxIdx2 * self.samplingRate / self.BUFFER_SIZE
+                    self.loudestTones[0] = Int(Float(maxIdx1) * self.deltaF)
+                    self.loudestTones[1] = Int(Float(maxIdx2) * self.deltaF)
                 }
               }
-            
         }
     }
     
     private func peakInterpolation(index:Int) -> Int{
-        let kdf = Float(samplingRate / (BUFFER_SIZE))
+        let kdf = Float(samplingRate / BUFFER_SIZE)
         
         let f2:Float = Float(Float(index)*kdf)
         let m3:Float = self.fftData[index+1]
@@ -172,6 +176,5 @@ class AudioModel {
     func getTwoLoudestTones() -> Array<Int>{
         return self.loudestTones
     }
-    
     
 }

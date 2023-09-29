@@ -10,9 +10,6 @@ import UIKit
 import Metal
 
 
-
-
-
 class ViewController: UIViewController {
 
     @IBOutlet weak var loudestLabel: UILabel!
@@ -93,7 +90,7 @@ class ViewController: UIViewController {
         
         let twoLoudestTones = audio.getTwoLoudestTones()
         if twoLoudestTones.count == 2{
-            loudestLabel.text = "\(twoLoudestTones[0]), \(twoLoudestTones[1])"
+            loudestLabel.text = "First loudest tone: \(twoLoudestTones[0])\nSecond loudest tone: \(twoLoudestTones[1])"
         }
         
     }
@@ -101,8 +98,6 @@ class ViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         audio.stop()
     }
-    
-    
 
 }
 
