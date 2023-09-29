@@ -20,6 +20,19 @@ class AudioModel {
     
     static var sharedInstance=AudioModel()//add this for sharedInstance
     
+    //==============================
+    // MARK: Properties for the ModuleB
+    var toneSineFrequncy:Float = 0.0{
+        didSet{
+            if let manager=self.audioManager{
+                phaseIncrement=Float(2*Double.pi*Double(toneSineFrequncy)/manager.samplingRate  )
+            }
+        }
+    }
+    private var phase:Float=0.0
+    private var phaseIncrement:Float=0.0
+    private var sineWaveRepeatMax:Float=Float(2*Double.pi)
+    //==============================
     
     // MARK: Public Methods
     // rewrite hte AudioModel for sharedInstant
@@ -27,6 +40,7 @@ class AudioModel {
         // anything not lazily instatntiated should be allocated here
         timeData = Array.init(repeating: 0.0, count: BUFFER_SIZE)
         fftData = Array.init(repeating: 0.0, count: BUFFER_SIZE/2)
+        toneSineFrequncy=0 // for the default
     }
     
     // public function for starting processing of microphone data
@@ -102,6 +116,53 @@ class AudioModel {
         // copy samples from the microphone into circular buffer
         self.inputBuffer?.addNewFloatData(data, withNumSamples: Int64(numFrames))
     }
+    
+    
+    //========================================
+    // MARK: funcs for ModuleB
+    //func start to processing sinewave
+    func startProcessingSineWaveForPlayback(withFreq:Float=330.0){
+        toneSineFrequncy=withFreq
+        if let manager=self.audioManager{
+            manager.outputBlock=self.handleSpeakerQueryWithSinuSound
+        }
+    }
+    
+    func stopProcessingSinwave(){
+        if let manager=self.audioManager{
+            manager.outputBlock=nil
+        }
+    }
+    
+    private func handleSpeakerQueryWithSinuSound(data:Optional<UnsafeMutablePointer<Float>>,numFrams:UInt32,numChannels:UInt32){
+        if let arrayData=data{
+            var i=0
+            let chan=Int(numChannels)
+            let frame=Int(numFrams)
+            if chan==1{
+                while i<frame{
+                    arrayData[i]=sin(phase)
+                   // arrayData[i+1]=arrayData[i]
+                    phase += phaseIncrement
+                    if (phase>=sineWaveRepeatMax){phase-=sineWaveRepeatMax}
+                    i+=1
+                }
+            }else if chan==2{
+                let len=frame*chan
+                while i<len{
+                    arrayData[i]=sin(phase)
+                    arrayData[i+1]=arrayData[i]
+                    phase += phaseIncrement
+                    if (phase>=sineWaveRepeatMax){phase-=sineWaveRepeatMax}
+                    i+=2
+                }
+            }
+            
+            
+        }
+        
+    }
+    
     
     
 }

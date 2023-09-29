@@ -71,8 +71,34 @@ class ModuleBViewController: UIViewController {
             graph.updateGraph(data: self.audio.fftData, forKey: "fft")
             graph.updateGraph(data: self.audio.timeData, forKey: "time")
             
+        } 
+    }
+    
+    
+    // switch to play the sound of slider value hz
+    @IBAction func switchPlay(_ sender: Any) {
+        if playingSwitch.isOn{
+            audio.startProcessingSineWaveForPlayback(withFreq: playingHzSlider.value)
+            audio.play()
+            playingLabel.text="Playing\(playingHzSlider.value)Hz"
+        }else{
+            audio.stopProcessingSinwave()
+            playingLabel.text="not Playing"
+        }
+        
+    }
+    
+    
+    @IBAction func changeFrequency(_ sender: UISlider) {
+        if playingSwitch.isOn{
+            self.audio.toneSineFrequncy=Float(Double(sender.value))
+            playingLabel.text="Playing\(sender.value)Hz"
+        }else{
+            
         }
     }
+    
+    
     
     
 
