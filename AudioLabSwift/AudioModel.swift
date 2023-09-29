@@ -113,31 +113,53 @@ class AudioModel {
                 let startIdx:Int = 150 * self.BUFFER_SIZE / self.samplingRate
                 self.fftZoomedData = Array(self.fftData[startIdx...startIdx+300])
                 
+                //self.findMaxUsingDilation()
+                
                 // calculate maximums by shifting the window
-                let window_size = 50
-                let threshold:Float = 3.0
-                var maximums = Array<Float>()
+                let window_size = 9
+                let threshold:Float = 5
+                var maxIdx1 = 0
+                var maxIdx2 = 0
+                var max1:Float = 0.0
+                var max2:Float = 0.0
                 for i in 0 ..< self.BUFFER_SIZE/2-window_size{
-                    if self.fftData[i+Int(window_size/2)] < threshold || self.fftData[i...i+window_size].max()! != self.fftData[i+Int(window_size/2)]{
+                    let mid = Int(window_size/2)
+                    if self.fftData[i+mid] < threshold || self.fftData[i..<i+window_size].max()! != self.fftData[i+mid]{
                         continue
                     }
-                    maximums.append(self.fftData[i+Int(window_size/2)])
+                    if self.fftData[i+mid] > max1{
+                        max2 = max1
+                        maxIdx2 = maxIdx1
+                        max1 = self.fftData[i+mid]
+                        maxIdx1 = i+mid
+                    }else if self.fftData[i+mid] > max2{
+                        max2 = self.fftData[i+mid]
+                        maxIdx2 = i+mid
+                    }
                 }
-                if maximums.count >= 2{
-                    let max1 = maximums.max()
-                    maximums.remove(at: maximums.firstIndex(of: max1!)!)
-                    let max2 = maximums.max()
-                    
-                    let pos1 = self.fftData.firstIndex(of: max1!)
-                    let pos2 = self.fftData.firstIndex(of: max2!)
-                    self.loudestTones[0] = pos1! * self.samplingRate / (self.BUFFER_SIZE/4)
-                    self.loudestTones[1] = pos2! * self.samplingRate / (self.BUFFER_SIZE/4)
+                if maxIdx1 != 0 && maxIdx2 != 0{
+                    //self.loudestTones[0] = self.peakInterpolation(index: maxIdx1)
+                    self.loudestTones[0] = maxIdx1 * self.samplingRate / self.BUFFER_SIZE
+                    self.loudestTones[1] = maxIdx2 * self.samplingRate / self.BUFFER_SIZE
                 }
-            }
+              }
             
         }
     }
     
+    private func peakInterpolation(index:Int) -> Int{
+        let kdf = Float(samplingRate / (BUFFER_SIZE))
+        
+        let f2:Float = Float(Float(index)*kdf)
+        let m3:Float = self.fftData[index+1]
+        let m2:Float = self.fftData[index]
+        let m1:Float = self.fftData[index-1]
+        //let peak = Int(f2 + (m1-m3)/(m3-2*m2+m1)*(kdf/2))
+        let peak = Int(f2 + ((m3 - m1)/(2*m2 - m1 - m3))*(kdf/2))
+        return peak
+        
+    }
+
     //==========================================
     // MARK: Audiocard Callbacks
     // in obj-C it was (^InputBlock)(float *data, UInt32 numFrames, UInt32 numChannels)

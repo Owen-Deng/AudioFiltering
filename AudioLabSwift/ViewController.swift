@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var loudestLabel: UILabel!
     @IBOutlet weak var userView: UIView!
     struct AudioConstants{
-        static let AUDIO_BUFFER_SIZE = Int(Novocaine.audioManager().samplingRate / 3)
+        static let AUDIO_BUFFER_SIZE = 8192
         static let FFT_ZOOMED_SIZE = 300
     }
     
