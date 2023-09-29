@@ -88,9 +88,10 @@ class ViewController: UIViewController {
             )
         }
         
+        // display two loudest tones and their musical notes(if possible)
         let twoLoudestTones = audio.getTwoLoudestTones()
         if twoLoudestTones.count == 2{
-            loudestLabel.text = "First loudest tone: \(twoLoudestTones[0])\nSecond loudest tone: \(twoLoudestTones[1])"
+            loudestLabel.text = "First loudest tone: \(twoLoudestTones[0]) \(audio.determineNote(Hz: twoLoudestTones[0]))\nSecond loudest tone: \(twoLoudestTones[1]) \(audio.determineNote(Hz: twoLoudestTones[1]))"
         }
         
     }

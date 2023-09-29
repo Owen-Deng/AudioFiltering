@@ -16,13 +16,16 @@ class AudioModel {
     private var WINDOW_SIZE:Int
     private var HALF_WINDOW_SIZE:Int
     private var THRESHOLD:Float
+    private var loudestTones:Array<Int>
+    private var tones:Array<Float> = [110, 116.54, 220, 233.08, 440, 466.16]
+    private var toneNotes = ["A2", "A2#", "A3", "A3#", "A4", "A4#"]
 
     // thse properties are for interfaceing with the API
     // the user can access these arrays at any time and plot them if they like
     var timeData:[Float]
     var fftData:[Float]
     var fftZoomedData:[Float]
-    private var loudestTones:Array<Int>
+    
     private lazy var serialQueue:DispatchQueue = {
         return DispatchQueue(label: "swiftlee.serial.queue")
     }()
@@ -74,6 +77,7 @@ class AudioModel {
         }
     }
     
+    // stop audio manager and set inputBlock as nil
     func stop(){
         if let manager = self.audioManager{
             manager.pause()
@@ -120,7 +124,7 @@ class AudioModel {
                 // actual Hz = f_0 * N/F_s
                 let startIdx:Int = 150 * self.BUFFER_SIZE / self.samplingRate
                 self.fftZoomedData = Array(self.fftData[startIdx...startIdx+300])
-                
+                //print(self.fftZoomedData.max())
                 // calculate two maximums by shifting the window
                 var maxIdx1 = 0
                 var maxIdx2 = 0
@@ -151,17 +155,14 @@ class AudioModel {
         }
     }
     
-    private func peakInterpolation(index:Int) -> Int{
-        let kdf = Float(samplingRate / BUFFER_SIZE)
-        
-        let f2:Float = Float(Float(index)*kdf)
-        let m3:Float = self.fftData[index+1]
-        let m2:Float = self.fftData[index]
-        let m1:Float = self.fftData[index-1]
-        //let peak = Int(f2 + (m1-m3)/(m3-2*m2+m1)*(kdf/2))
-        let peak = Int(f2 + ((m3 - m1)/(2*m2 - m1 - m3))*(kdf/2))
-        return peak
-        
+    // determin musical note by frequncy
+    func determineNote(Hz: Int) -> String{
+        for toneIdx in 0 ..< tones.count{
+            if abs(tones[toneIdx] - Float(Hz)) <= 3.0{
+                return toneNotes[toneIdx]
+            }
+        }
+        return ""
     }
 
     //==========================================
@@ -176,5 +177,5 @@ class AudioModel {
     func getTwoLoudestTones() -> Array<Int>{
         return self.loudestTones
     }
-    
+        
 }
