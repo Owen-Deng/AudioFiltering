@@ -17,7 +17,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var userView: UIView!
     struct AudioConstants{
-        static let AUDIO_BUFFER_SIZE = 1024*4
+        static let AUDIO_BUFFER_SIZE = 1024*8
     }
     
     // setup audio model

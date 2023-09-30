@@ -77,12 +77,9 @@ class ModuleBViewController: UIViewController {
             // for the zoomed fft graph data about the peak of the fft 100point to show the zoomed area graph
             if playingSwitch.isOn{
                 //get the 50 point from the 50left of tone and 50 right of. if start is less than 0 , from 0
-                
-              
-                print("start at \(startIndex) and fftdat.count:\(self.audio.fftData.count)")
-                print(subFftArray)
-                findDopplerPeak(array: &subFftArray)
-                graph.updateGraph(data: subFftArray, forKey: "zoomedfft")
+            
+               // findDopplerPeak(array: &subFftArray)
+                graph.updateGraph(data: self.audio.zoomedFftdata, forKey: "zoomedfft")
                 
             }
             
