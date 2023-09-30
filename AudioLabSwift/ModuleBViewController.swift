@@ -90,29 +90,56 @@ class ModuleBViewController: UIViewController {
     }
     
     
-    
+    // update the label for doppler effect when it can gestur the hand move
     func updateGesturingState(){
         if playingSwitch.isOn{
             gesturingLabel.isHidden=false
             switch self.audio.gesturingState{
             case.Not:  gesturingLabel.text="Not Gesturing"
-            case.away:  gesturingLabel.text="Gesturing Away"
+            case.away:
+                gesturingLabel.text="Gesturing Away"
+                movingAwayHandAnimation()
             case .toward:
                 gesturingLabel.text="Gesturing Toward"
-                
+                movingTowardHandAnimation()
             }
         }
     }
     
     
     
-    //
+    // two moving animation for the better performace of hand move
+    var isAnimationProgres=false
     func movingTowardHandAnimation(){
-        UIView.animate(withDuration: 3, animations: {
+    
+        if isAnimationProgres{
+            return
+        }
+        isAnimationProgres=true
+        UIView.animate(withDuration: 0.5, animations: {
             self.handLabel.frame.origin.x -= 100
             self.handLabel.alpha=0
-        })
+        }){ (completed) in
+            self.handLabel.frame.origin.x+=100
+            self.handLabel.alpha=1
+            self.isAnimationProgres=false
+        }
     }
+    func movingAwayHandAnimation(){
+        if isAnimationProgres{
+            return
+        }
+        isAnimationProgres=true
+        UIView.animate(withDuration: 0.5, animations: {
+            self.handLabel.frame.origin.x += 100
+            self.handLabel.alpha=0
+        }){(completed) in
+            self.handLabel.frame.origin.x-=100
+            self.handLabel.alpha=1
+            self.isAnimationProgres=false
+        }
+    }
+    
     
     
     
