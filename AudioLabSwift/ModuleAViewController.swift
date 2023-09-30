@@ -10,7 +10,7 @@ import UIKit
 import Metal
 
 
-class ViewController: UIViewController {
+class ModuleAViewController: UIViewController {
 
     @IBOutlet weak var loudestLabel: UILabel!
     @IBOutlet weak var userView: UIView!
@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     }
     
     // setup audio model
-    let audio = AudioModel(buffer_size: AudioConstants.AUDIO_BUFFER_SIZE, fft_zoomed_size: AudioConstants.FFT_ZOOMED_SIZE)
+    let audio = FrequencyRecognitionModel(buffer_size: AudioConstants.AUDIO_BUFFER_SIZE, fft_zoomed_size: AudioConstants.FFT_ZOOMED_SIZE)
     lazy var graph:MetalGraph? = {
         return MetalGraph(userView: self.userView)
     }()
