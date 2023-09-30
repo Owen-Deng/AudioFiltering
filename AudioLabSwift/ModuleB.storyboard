@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Y6W-OH-hqX" kind="showDetail" id="7SL-fk-Jhl"/>
+                        <segue destination="Y6W-OH-hqX" kind="showDetail" identifier="startModuleBSegue" id="7SL-fk-Jhl"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wqo-Vh-pHo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -80,6 +80,20 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="✋" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MAF-87-hjo">
+                                <rect key="frame" x="178" y="570" width="36" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="📱" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="anf-rW-lyb">
+                                <rect key="frame" x="16" y="545" width="57" height="89"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -88,6 +102,8 @@
                     <connections>
                         <outlet property="gesturingLabel" destination="9pm-Ny-Tjc" id="WZJ-gb-UHt"/>
                         <outlet property="graphUIView" destination="kAf-Ms-mOI" id="CUv-LV-Xga"/>
+                        <outlet property="handLabel" destination="MAF-87-hjo" id="bhP-fb-UAF"/>
+                        <outlet property="phoneLabel" destination="anf-rW-lyb" id="v9M-3e-f48"/>
                         <outlet property="playingHzSlider" destination="Bcq-8h-jEn" id="r3R-cw-QrV"/>
                         <outlet property="playingLabel" destination="dBl-Go-zKS" id="m7w-g0-3Ke"/>
                         <outlet property="playingSwitch" destination="78Z-uY-lIs" id="Nfm-Aw-pd8"/>

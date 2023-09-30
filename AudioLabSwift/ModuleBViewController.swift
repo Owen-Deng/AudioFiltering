@@ -16,6 +16,8 @@ class ModuleBViewController: UIViewController {
     @IBOutlet weak var playingSwitch: UISwitch!
     @IBOutlet weak var playingHzSlider: UISlider!
     @IBOutlet weak var gesturingLabel: UILabel!
+    @IBOutlet weak var handLabel: UILabel! // for the small animation
+    @IBOutlet weak var phoneLabel: UILabel! //for the samll animationc
     
     //setup constants
     struct AudioConstants{
@@ -95,9 +97,21 @@ class ModuleBViewController: UIViewController {
             switch self.audio.gesturingState{
             case.Not:  gesturingLabel.text="Not Gesturing"
             case.away:  gesturingLabel.text="Gesturing Away"
-            case .toward:   gesturingLabel.text="Gesturing Toward"
+            case .toward:
+                gesturingLabel.text="Gesturing Toward"
+                
             }
         }
+    }
+    
+    
+    
+    //
+    func movingTowardHandAnimation(){
+        UIView.animate(withDuration: 3, animations: {
+            self.handLabel.frame.origin.x -= 100
+            self.handLabel.alpha=0
+        })
     }
     
     

@@ -198,6 +198,7 @@ class AudioModel {
     
     // this is one way for check the windows max of the zoomed array of playing
     func findDopplerPeak(array:inout[Float]){
+        // use the window to get several peaks
         var startIndex:Int=0
         var endIndex:Int=startIndex+ZOOMED_FFT_WINDOW_LENGTH-1
         var windowsPeaksArray:[Float]=[]
@@ -215,31 +216,31 @@ class AudioModel {
         }
         //caculate the dif between the peaks and find out energy enough for detectin
         if let maxValue=windowsPeaksArray.max(){
-            let dif=maxValue-windowsPeaksArray[0] //this is normal difference between the max peak and other points
-            var peak:Int=0// set the recieved peak position 0 means no such peak.1 means left of refenrece,2means right
-            for (index , value) in windowsPeaksArray.enumerated(){// find the second peak
-                if Double((maxValue-value)/dif) > DIF_PEAKS || (maxValue-value)==0{
-                    // no gesturing the dif is too big . nothing hapen. or energy is too small
-                    //peak=0
-                }else{
-                    // the energy is big enough to know something refection hapende and dopple is hapenning
-                    if index>=windowsPeaksArray.count/2{
-                        peak=2
+            if maxValue==windowsPeaksArray[windowsPeaksArray.count/2-1]{ // make the peak in zoomed more stable
+                let dif=maxValue-windowsPeaksArray[0] //this is normal difference between the max peak and other points
+                var peak:Int=0// set the recieved peak position 0 means no such peak.1 means left of refenrece,2means right
+                for (index , value) in windowsPeaksArray.enumerated(){// find the second peak
+                    if Double((maxValue-value)/dif) > DIF_PEAKS || (maxValue-value)==0{
+                        // no gesturing the dif is too big . nothing hapen. or energy is too small
+                        //peak=0
                     }else{
-                        peak=1
+                        // the energy is big enough to know something refection hapende and dopple is hapenning
+                        if index>=windowsPeaksArray.count/2{
+                            peak=2
+                        }else{
+                            peak=1
+                        }
                     }
                 }
+                //if get the peak than set the status
+                switch peak {
+                case 0:self.gesturingState=gesturingStateEnum.Not
+                case 1:self.gesturingState=gesturingStateEnum.away
+                case 2:self.gesturingState=gesturingStateEnum.toward
+                default:
+                    self.gesturingState=gesturingStateEnum.Not
+                }
             }
-            //if get the peak than set the status
-            switch peak {
-            case 0:self.gesturingState=gesturingStateEnum.Not
-            case 1:self.gesturingState=gesturingStateEnum.away
-            case 2:self.gesturingState=gesturingStateEnum.toward
-            default:
-                self.gesturingState=gesturingStateEnum.Not
-            }
-            
-            
         }
     }
     
