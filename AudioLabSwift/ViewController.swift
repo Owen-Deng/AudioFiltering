@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     }
     
     // setup audio model
-    let audio = AudioModel.sharedInstance //change it for sharedInstance
+    let audio = ModuleBAudioModel.sharedInstance //change it for sharedInstance
     lazy var graph:MetalGraph? = {
         return MetalGraph(userView: self.userView)
     }()

@@ -28,7 +28,7 @@ class ModuleBViewController: UIViewController {
     }
     
   
-    var audio=AudioModel.sharedInstance
+    var audio=ModuleBAudioModel.sharedInstance
     
     
     

@@ -9,7 +9,7 @@
 import Foundation
 import Accelerate
 
-class AudioModel {
+class ModuleBAudioModel {
     
     // MARK: Properties
     private var BUFFER_SIZE:Int=1024*8//init this for sharedInstance, make more data for zoom
@@ -21,7 +21,7 @@ class AudioModel {
     var timeData:[Float]
     var fftData:[Float]
     
-    static var sharedInstance=AudioModel()//add this for sharedInstance
+    static var sharedInstance=ModuleBAudioModel()//add this for sharedInstance
     
     //==============================
     // MARK: Properties for the ModuleB
