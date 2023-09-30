@@ -23,7 +23,6 @@ class ModuleBViewController: UIViewController {
         static let FFT_BUFFER_SIZE=AUDIO_BUFFER_SIZE/2
         static let AUDIO_FPS=20
         static let ZOOMEDFFT_POINT_COUNT=50 // for the zoomed fft graph data
-        static let DOPPLER_PEAK_WINDOWS_LENGH=5
     }
     
   
@@ -76,33 +75,10 @@ class ModuleBViewController: UIViewController {
             
             // for the zoomed fft graph data about the peak of the fft 100point to show the zoomed area graph
             if playingSwitch.isOn{
-                //get the 50 point from the 50left of tone and 50 right of. if start is less than 0 , from 0
-            
-               // findDopplerPeak(array: &subFftArray)
+                //get the 50 point from the 25left of tone and 25 right. for the zoomed graph
                 graph.updateGraph(data: self.audio.zoomedFftdata, forKey: "zoomedfft")
-                
             }
-            
         } 
-    }
-    
-    
-    func findDopplerPeak(array:inout[Float]){
-        var startIndex:Int=0
-        var endIndex:Int=startIndex+AudioConstants.DOPPLER_PEAK_WINDOWS_LENGH-1
-        while endIndex<array.count{
-            
-            var maxV:Float=0.0
-            var maxIndex:Int=0;
-            var subArray=Array(array[startIndex...endIndex])
-            vDSP_maxvi(&subArray, 1, &maxV, &maxIndex, vDSP_Length(AudioConstants.DOPPLER_PEAK_WINDOWS_LENGH))
-            if (startIndex + Int(maxIndex))==(startIndex+endIndex)/2{
-                print("central max :\(startIndex + Int(maxIndex)) and the Value is \(maxV)")
-            }
-            startIndex=startIndex+1
-            endIndex=startIndex+AudioConstants.DOPPLER_PEAK_WINDOWS_LENGH-1
-        }
-        
     }
     
     
