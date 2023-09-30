@@ -68,6 +68,7 @@ class ModuleBViewController: UIViewController {
     
     
     // setup the updataGraph func to update the uiview
+    var counter:Int=0 // for update the gesturinglable 10FPS
     func updateGraph(){
         if let graph=self.graph{
             graph.updateGraph(data: self.audio.fftData, forKey: "fft")
@@ -78,7 +79,25 @@ class ModuleBViewController: UIViewController {
                 //get the 50 point from the 25left of tone and 25 right. for the zoomed graph
                 graph.updateGraph(data: self.audio.zoomedFftdata, forKey: "zoomedfft")
             }
+            if counter % 2 == 0 { // for update gesturing in 10FPS
+                updateGesturingState()
+            }
+            counter+=1
+            
         } 
+    }
+    
+    
+    
+    func updateGesturingState(){
+        if playingSwitch.isOn{
+            gesturingLabel.isHidden=false
+            switch self.audio.gesturingState{
+            case.Not:  gesturingLabel.text="Not Gesturing"
+            case.away:  gesturingLabel.text="Gesturing Away"
+            case .toward:   gesturingLabel.text="Gesturing Toward"
+            }
+        }
     }
     
     
@@ -92,6 +111,7 @@ class ModuleBViewController: UIViewController {
         }else{
             audio.stopProcessingSinwave()
             playingLabel.text="not Playing"
+            gesturingLabel.isHidden=true
         }
         
     }
