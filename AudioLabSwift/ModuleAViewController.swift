@@ -101,6 +101,9 @@ class ModuleAViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         audio.stop()
+        if (userView.layer.sublayers?.count)! >= 1{
+            userView.layer.sublayers?.remove(at: 0)
+        }
     }
 
 }

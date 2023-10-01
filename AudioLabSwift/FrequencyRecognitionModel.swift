@@ -17,7 +17,7 @@ class FrequencyRecognitionModel {
     private var THRESHOLD:Float
     private var loudestTones:Array<Int>
     private var tones:Array<Float> = [110, 116.54, 220, 233.08, 440, 466.16]
-    private var toneNotes = ["A2", "A2#", "A3", "A3#", "A4", "A4#"]
+    private var toneNotes = ["A2", "A#2", "A3", "A#3", "A4", "A#4"]
 
     // thse properties are for interfaceing with the API
     // the user can access these arrays at any time and plot them if they like
