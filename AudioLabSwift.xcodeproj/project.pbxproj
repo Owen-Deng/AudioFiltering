@@ -7,17 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A1C06572AC897FA00DBA3B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1C06562AC897FA00DBA3B6 /* Main.storyboard */; };
 		B65B5A5A24F4409F00E74E73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A5924F4409F00E74E73 /* AppDelegate.swift */; };
 		B65B5A5C24F4409F00E74E73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */; };
-		B65B5A5E24F4409F00E74E73 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A5D24F4409F00E74E73 /* ViewController.swift */; };
-		B65B5A6124F4409F00E74E73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B65B5A5F24F4409F00E74E73 /* Main.storyboard */; };
+		B65B5A5E24F4409F00E74E73 /* ModuleAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A5D24F4409F00E74E73 /* ModuleAViewController.swift */; };
+		B65B5A6124F4409F00E74E73 /* ModuleA.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B65B5A5F24F4409F00E74E73 /* ModuleA.storyboard */; };
 		B65B5A6324F440A100E74E73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B65B5A6224F440A100E74E73 /* Assets.xcassets */; };
 		B65B5A6624F440A100E74E73 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B65B5A6424F440A100E74E73 /* LaunchScreen.storyboard */; };
 		B65B5A7024F440D600E74E73 /* Novocaine.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A6F24F440D600E74E73 /* Novocaine.m */; };
 		B65B5A7324F443A400E74E73 /* AudioFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7124F443A400E74E73 /* AudioFileReader.m */; };
-		B65B5A7524F4440300E74E73 /* satisfaction.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B65B5A7424F4440300E74E73 /* satisfaction.mp3 */; };
 		B65B5A7824F444CE00E74E73 /* CircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7624F444CE00E74E73 /* CircularBuffer.m */; };
 		B65B5A7A24F4523C00E74E73 /* ModuleBAudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7924F4523C00E74E73 /* ModuleBAudioModel.swift */; };
+		B65B5A7A24F4523C00E74E73 /* FrequencyRecognitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7924F4523C00E74E73 /* FrequencyRecognitionModel.swift */; };
 		B65B5A7D24F458D700E74E73 /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7B24F458D700E74E73 /* FFTHelper.m */; };
 		B65B5A7F24F4798B00E74E73 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7E24F4798B00E74E73 /* Shaders.metal */; };
 		B65B5A8124F4AAB800E74E73 /* MetalGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */; };
@@ -26,25 +27,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B65B5A5624F4409F00E74E73 /* AudioLabSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioLabSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A1C06562AC897FA00DBA3B6 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B65B5A5624F4409F00E74E73 /* AudioAnalysis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioAnalysis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B65B5A5924F4409F00E74E73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B65B5A5D24F4409F00E74E73 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B65B5A6024F4409F00E74E73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B65B5A5D24F4409F00E74E73 /* ModuleAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleAViewController.swift; sourceTree = "<group>"; };
+		B65B5A6024F4409F00E74E73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ModuleA.storyboard; sourceTree = "<group>"; };
 		B65B5A6224F440A100E74E73 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B65B5A6524F440A100E74E73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B65B5A6724F440A100E74E73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B65B5A6D24F440D500E74E73 /* AudioLabSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AudioLabSwift-Bridging-Header.h"; sourceTree = "<group>"; };
-		B65B5A6E24F440D600E74E73 /* Novocaine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Novocaine.h; path = AudioDSPUtils/Novocaine.h; sourceTree = SOURCE_ROOT; };
-		B65B5A6F24F440D600E74E73 /* Novocaine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Novocaine.m; path = AudioDSPUtils/Novocaine.m; sourceTree = SOURCE_ROOT; };
-		B65B5A7124F443A400E74E73 /* AudioFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioFileReader.m; path = AudioDSPUtils/AudioFileReader.m; sourceTree = SOURCE_ROOT; };
-		B65B5A7224F443A400E74E73 /* AudioFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFileReader.h; path = AudioDSPUtils/AudioFileReader.h; sourceTree = SOURCE_ROOT; };
-		B65B5A7424F4440300E74E73 /* satisfaction.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = satisfaction.mp3; sourceTree = "<group>"; };
-		B65B5A7624F444CE00E74E73 /* CircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircularBuffer.m; path = AudioDSPUtils/CircularBuffer.m; sourceTree = SOURCE_ROOT; };
-		B65B5A7724F444CE00E74E73 /* CircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircularBuffer.h; path = AudioDSPUtils/CircularBuffer.h; sourceTree = SOURCE_ROOT; };
-		B65B5A7924F4523C00E74E73 /* ModuleBAudioModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBAudioModel.swift; sourceTree = "<group>"; };
-		B65B5A7B24F458D700E74E73 /* FFTHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFTHelper.m; path = AudioDSPUtils/FFTHelper.m; sourceTree = SOURCE_ROOT; };
-		B65B5A7C24F458D700E74E73 /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTHelper.h; path = AudioDSPUtils/FFTHelper.h; sourceTree = SOURCE_ROOT; };
+		B65B5A6E24F440D600E74E73 /* Novocaine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Novocaine.h; path = AudioLabSwift/Utilities/Novocaine.h; sourceTree = SOURCE_ROOT; };
+		B65B5A6F24F440D600E74E73 /* Novocaine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Novocaine.m; path = AudioLabSwift/Utilities/Novocaine.m; sourceTree = SOURCE_ROOT; };
+		B65B5A7124F443A400E74E73 /* AudioFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioFileReader.m; path = AudioLabSwift/Utilities/AudioFileReader.m; sourceTree = SOURCE_ROOT; };
+		B65B5A7224F443A400E74E73 /* AudioFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFileReader.h; path = AudioLabSwift/Utilities/AudioFileReader.h; sourceTree = SOURCE_ROOT; };
+		B65B5A7624F444CE00E74E73 /* CircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircularBuffer.m; path = AudioLabSwift/Utilities/CircularBuffer.m; sourceTree = SOURCE_ROOT; };
+		B65B5A7724F444CE00E74E73 /* CircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircularBuffer.h; path = AudioLabSwift/Utilities/CircularBuffer.h; sourceTree = SOURCE_ROOT; };
+		B65B5A7924F4523C00E74E73 /* FrequencyRecognitionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyRecognitionModel.swift; sourceTree = "<group>"; };
+		B65B5A7B24F458D700E74E73 /* FFTHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFTHelper.m; path = AudioLabSwift/Utilities/FFTHelper.m; sourceTree = SOURCE_ROOT; };
+		B65B5A7C24F458D700E74E73 /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTHelper.h; path = AudioLabSwift/Utilities/FFTHelper.h; sourceTree = SOURCE_ROOT; };
 		B65B5A7E24F4798B00E74E73 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalGraph.swift; sourceTree = "<group>"; };
 		CC66D6BF2AC5BE800091DA2B /* ModuleB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ModuleB.storyboard; sourceTree = "<group>"; };
@@ -74,12 +75,30 @@
 		B65B5A5724F4409F00E74E73 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B65B5A5624F4409F00E74E73 /* AudioLabSwift.app */,
+				B65B5A5624F4409F00E74E73 /* AudioAnalysis.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
 		B65B5A5824F4409F00E74E73 /* AudioLabSwift */ = {
+			isa = PBXGroup;
+			children = (
+				B6BE4C9A2AC47F7100488FE3 /* Utilities */,
+				B65B5A5924F4409F00E74E73 /* AppDelegate.swift */,
+				B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */,
+				B65B5A5D24F4409F00E74E73 /* ModuleAViewController.swift */,
+				B65B5A7924F4523C00E74E73 /* FrequencyRecognitionModel.swift */,
+				B65B5A5F24F4409F00E74E73 /* ModuleA.storyboard */,
+				5A1C06562AC897FA00DBA3B6 /* Main.storyboard */,
+				B65B5A6224F440A100E74E73 /* Assets.xcassets */,
+				B65B5A6424F440A100E74E73 /* LaunchScreen.storyboard */,
+				B65B5A6724F440A100E74E73 /* Info.plist */,
+				B65B5A6D24F440D500E74E73 /* AudioLabSwift-Bridging-Header.h */,
+			);
+			path = AudioLabSwift;
+			sourceTree = "<group>";
+		};
+		B6BE4C9A2AC47F7100488FE3 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				B65B5A6E24F440D600E74E73 /* Novocaine.h */,
@@ -90,29 +109,17 @@
 				B65B5A7124F443A400E74E73 /* AudioFileReader.m */,
 				B65B5A7C24F458D700E74E73 /* FFTHelper.h */,
 				B65B5A7B24F458D700E74E73 /* FFTHelper.m */,
-				B65B5A5924F4409F00E74E73 /* AppDelegate.swift */,
-				B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */,
-				B65B5A5D24F4409F00E74E73 /* ViewController.swift */,
 				B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */,
-				B65B5A7924F4523C00E74E73 /* ModuleBAudioModel.swift */,
-				B65B5A5F24F4409F00E74E73 /* Main.storyboard */,
-				B65B5A6224F440A100E74E73 /* Assets.xcassets */,
-				B65B5A6424F440A100E74E73 /* LaunchScreen.storyboard */,
-				B65B5A6724F440A100E74E73 /* Info.plist */,
-				B65B5A6D24F440D500E74E73 /* AudioLabSwift-Bridging-Header.h */,
-				B65B5A7424F4440300E74E73 /* satisfaction.mp3 */,
-				CC66D6BF2AC5BE800091DA2B /* ModuleB.storyboard */,
-				CC66D6C12AC5BF720091DA2B /* ModuleBViewController.swift */,
 			);
-			path = AudioLabSwift;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B65B5A5524F4409F00E74E73 /* AudioLabSwift */ = {
+		B65B5A5524F4409F00E74E73 /* AudioAnalysis */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B65B5A6A24F440A100E74E73 /* Build configuration list for PBXNativeTarget "AudioLabSwift" */;
+			buildConfigurationList = B65B5A6A24F440A100E74E73 /* Build configuration list for PBXNativeTarget "AudioAnalysis" */;
 			buildPhases = (
 				B65B5A5224F4409F00E74E73 /* Sources */,
 				B65B5A5324F4409F00E74E73 /* Frameworks */,
@@ -122,9 +129,9 @@
 			);
 			dependencies = (
 			);
-			name = AudioLabSwift;
+			name = AudioAnalysis;
 			productName = AudioLabSwift;
-			productReference = B65B5A5624F4409F00E74E73 /* AudioLabSwift.app */;
+			productReference = B65B5A5624F4409F00E74E73 /* AudioAnalysis.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -157,7 +164,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B65B5A5524F4409F00E74E73 /* AudioLabSwift */,
+				B65B5A5524F4409F00E74E73 /* AudioAnalysis */,
 			);
 		};
 /* End PBXProject section */
@@ -170,8 +177,8 @@
 				B65B5A6624F440A100E74E73 /* LaunchScreen.storyboard in Resources */,
 				CC66D6C02AC5BE800091DA2B /* ModuleB.storyboard in Resources */,
 				B65B5A6324F440A100E74E73 /* Assets.xcassets in Resources */,
-				B65B5A7524F4440300E74E73 /* satisfaction.mp3 in Resources */,
-				B65B5A6124F4409F00E74E73 /* Main.storyboard in Resources */,
+				B65B5A6124F4409F00E74E73 /* ModuleA.storyboard in Resources */,
+				5A1C06572AC897FA00DBA3B6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,11 +191,12 @@
 			files = (
 				CC66D6C22AC5BF720091DA2B /* ModuleBViewController.swift in Sources */,
 				B65B5A7A24F4523C00E74E73 /* ModuleBAudioModel.swift in Sources */,
+				B65B5A7A24F4523C00E74E73 /* FrequencyRecognitionModel.swift in Sources */,
 				B65B5A7824F444CE00E74E73 /* CircularBuffer.m in Sources */,
 				B65B5A7324F443A400E74E73 /* AudioFileReader.m in Sources */,
 				B65B5A7024F440D600E74E73 /* Novocaine.m in Sources */,
 				B65B5A8124F4AAB800E74E73 /* MetalGraph.swift in Sources */,
-				B65B5A5E24F4409F00E74E73 /* ViewController.swift in Sources */,
+				B65B5A5E24F4409F00E74E73 /* ModuleAViewController.swift in Sources */,
 				B65B5A5A24F4409F00E74E73 /* AppDelegate.swift in Sources */,
 				B65B5A7F24F4798B00E74E73 /* Shaders.metal in Sources */,
 				B65B5A7D24F458D700E74E73 /* FFTHelper.m in Sources */,
@@ -199,12 +207,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		B65B5A5F24F4409F00E74E73 /* Main.storyboard */ = {
+		B65B5A5F24F4409F00E74E73 /* ModuleA.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				B65B5A6024F4409F00E74E73 /* Base */,
 			);
-			name = Main.storyboard;
+			name = ModuleA.storyboard;
 			sourceTree = "<group>";
 		};
 		B65B5A6424F440A100E74E73 /* LaunchScreen.storyboard */ = {
@@ -389,7 +397,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B65B5A6A24F440A100E74E73 /* Build configuration list for PBXNativeTarget "AudioLabSwift" */ = {
+		B65B5A6A24F440A100E74E73 /* Build configuration list for PBXNativeTarget "AudioAnalysis" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B65B5A6B24F440A100E74E73 /* Debug */,
