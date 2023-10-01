@@ -18,7 +18,7 @@
             </objects>
             <point key="canvasLocation" x="1458.4000000000001" y="192.85714285714286"/>
         </scene>
-        <!--Root View Controller-->
+        <!--TrioLab2-->
         <scene sceneID="s6D-wi-FSO">
             <objects>
                 <tableViewController id="EZB-L1-0nK" sceneMemberID="viewController">
@@ -93,7 +93,7 @@
                             <outlet property="delegate" destination="EZB-L1-0nK" id="A6m-bU-LEi"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="vSo-a8-iJf"/>
+                    <navigationItem key="navigationItem" title="TrioLab2" id="vSo-a8-iJf"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9ue-o3-iel" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

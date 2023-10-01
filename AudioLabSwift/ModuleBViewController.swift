@@ -59,6 +59,10 @@ class ModuleBViewController: UIViewController {
         setDefaultUI() // stat the vc and set ui in default
     }
     
+    //leave module b make it slience
+    override func viewDidDisappear(_ animated: Bool) {
+        self.audio.stopProcessingSinwave()
+    }
     
     // set the default state of several views
     func setDefaultUI(){
@@ -81,7 +85,7 @@ class ModuleBViewController: UIViewController {
                 //get the 50 point from the 25left of tone and 25 right. for the zoomed graph
                 graph.updateGraph(data: self.audio.zoomedFftdata, forKey: "zoomedfft")
             }
-            if counter % 2 == 0 { // for update gesturing in 10FPS
+            if counter % 2 == 0 { // for update gesturing in 10FPS,the update should not such sensitive
                 updateGesturingState()
             }
             counter+=1
@@ -108,35 +112,43 @@ class ModuleBViewController: UIViewController {
     
     
     
-    // two moving animation for the better performace of hand move
+    // two gesturing detection moving animation for the better performace of hand move
     var isAnimationProgres=false
     func movingTowardHandAnimation(){
-    
+        let orginx = handLabel.frame.origin.x;
+        self.handLabel.alpha=1
+        
         if isAnimationProgres{
             return
         }
         isAnimationProgres=true
         UIView.animate(withDuration: 0.5, animations: {
-            self.handLabel.frame.origin.x -= 100
+            self.handLabel.frame.origin.x -= 150
             self.handLabel.alpha=0
         }){ (completed) in
-            self.handLabel.frame.origin.x+=100
-            self.handLabel.alpha=1
-            self.isAnimationProgres=false
+            if completed{
+                self.handLabel.frame.origin.x=orginx
+               // self.handLabel.alpha=1
+                self.isAnimationProgres=false
+            }
         }
     }
     func movingAwayHandAnimation(){
+        let orginx = handLabel.frame.origin.x;
         if isAnimationProgres{
             return
         }
+        self.handLabel.alpha=1
         isAnimationProgres=true
         UIView.animate(withDuration: 0.5, animations: {
-            self.handLabel.frame.origin.x += 100
+            self.handLabel.frame.origin.x += 150
             self.handLabel.alpha=0
         }){(completed) in
-            self.handLabel.frame.origin.x-=100
-            self.handLabel.alpha=1
-            self.isAnimationProgres=false
+            if completed{
+                self.handLabel.frame.origin.x=orginx
+               // self.handLabel.alpha=1
+                self.isAnimationProgres=false
+            }
         }
     }
     
