@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,10 +17,13 @@
 		B65B5A7024F440D600E74E73 /* Novocaine.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A6F24F440D600E74E73 /* Novocaine.m */; };
 		B65B5A7324F443A400E74E73 /* AudioFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7124F443A400E74E73 /* AudioFileReader.m */; };
 		B65B5A7824F444CE00E74E73 /* CircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7624F444CE00E74E73 /* CircularBuffer.m */; };
+		B65B5A7A24F4523C00E74E73 /* ModuleBAudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7924F4523C00E74E73 /* ModuleBAudioModel.swift */; };
 		B65B5A7A24F4523C00E74E73 /* FrequencyRecognitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7924F4523C00E74E73 /* FrequencyRecognitionModel.swift */; };
 		B65B5A7D24F458D700E74E73 /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7B24F458D700E74E73 /* FFTHelper.m */; };
 		B65B5A7F24F4798B00E74E73 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7E24F4798B00E74E73 /* Shaders.metal */; };
 		B65B5A8124F4AAB800E74E73 /* MetalGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */; };
+		CC66D6C02AC5BE800091DA2B /* ModuleB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC66D6BF2AC5BE800091DA2B /* ModuleB.storyboard */; };
+		CC66D6C22AC5BF720091DA2B /* ModuleBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC66D6C12AC5BF720091DA2B /* ModuleBViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +48,8 @@
 		B65B5A7C24F458D700E74E73 /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTHelper.h; path = AudioLabSwift/Utilities/FFTHelper.h; sourceTree = SOURCE_ROOT; };
 		B65B5A7E24F4798B00E74E73 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalGraph.swift; sourceTree = "<group>"; };
+		CC66D6BF2AC5BE800091DA2B /* ModuleB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ModuleB.storyboard; sourceTree = "<group>"; };
+		CC66D6C12AC5BF720091DA2B /* ModuleBViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,8 +140,9 @@
 		B65B5A4E24F4409F00E74E73 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Eric Larson";
 				TargetAttributes = {
 					B65B5A5524F4409F00E74E73 = {
@@ -169,6 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B65B5A6624F440A100E74E73 /* LaunchScreen.storyboard in Resources */,
+				CC66D6C02AC5BE800091DA2B /* ModuleB.storyboard in Resources */,
 				B65B5A6324F440A100E74E73 /* Assets.xcassets in Resources */,
 				B65B5A6124F4409F00E74E73 /* ModuleA.storyboard in Resources */,
 				5A1C06572AC897FA00DBA3B6 /* Main.storyboard in Resources */,
@@ -182,6 +189,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC66D6C22AC5BF720091DA2B /* ModuleBViewController.swift in Sources */,
+				B65B5A7A24F4523C00E74E73 /* ModuleBAudioModel.swift in Sources */,
 				B65B5A7A24F4523C00E74E73 /* FrequencyRecognitionModel.swift in Sources */,
 				B65B5A7824F444CE00E74E73 /* CircularBuffer.m in Sources */,
 				B65B5A7324F443A400E74E73 /* AudioFileReader.m in Sources */,
@@ -243,6 +252,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -303,6 +313,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
