@@ -3,11 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		5A1C06572AC897FA00DBA3B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1C06562AC897FA00DBA3B6 /* Main.storyboard */; };
+		5A1C065B2AC8FC1E00DBA3B6 /* ModuleB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1C065A2AC8FC1E00DBA3B6 /* ModuleB.storyboard */; };
+		5A1C065D2AC8FCA600DBA3B6 /* ModuleBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1C065C2AC8FCA600DBA3B6 /* ModuleBViewController.swift */; };
+		5A1C065F2AC8FF2E00DBA3B6 /* ModuleBAudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1C065E2AC8FF2E00DBA3B6 /* ModuleBAudioModel.swift */; };
 		B65B5A5A24F4409F00E74E73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A5924F4409F00E74E73 /* AppDelegate.swift */; };
 		B65B5A5C24F4409F00E74E73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */; };
 		B65B5A5E24F4409F00E74E73 /* ModuleAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A5D24F4409F00E74E73 /* ModuleAViewController.swift */; };
@@ -17,17 +20,17 @@
 		B65B5A7024F440D600E74E73 /* Novocaine.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A6F24F440D600E74E73 /* Novocaine.m */; };
 		B65B5A7324F443A400E74E73 /* AudioFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7124F443A400E74E73 /* AudioFileReader.m */; };
 		B65B5A7824F444CE00E74E73 /* CircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7624F444CE00E74E73 /* CircularBuffer.m */; };
-		B65B5A7A24F4523C00E74E73 /* ModuleBAudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7924F4523C00E74E73 /* ModuleBAudioModel.swift */; };
 		B65B5A7A24F4523C00E74E73 /* FrequencyRecognitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7924F4523C00E74E73 /* FrequencyRecognitionModel.swift */; };
 		B65B5A7D24F458D700E74E73 /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7B24F458D700E74E73 /* FFTHelper.m */; };
 		B65B5A7F24F4798B00E74E73 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A7E24F4798B00E74E73 /* Shaders.metal */; };
 		B65B5A8124F4AAB800E74E73 /* MetalGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */; };
-		CC66D6C02AC5BE800091DA2B /* ModuleB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC66D6BF2AC5BE800091DA2B /* ModuleB.storyboard */; };
-		CC66D6C22AC5BF720091DA2B /* ModuleBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC66D6C12AC5BF720091DA2B /* ModuleBViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5A1C06562AC897FA00DBA3B6 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		5A1C065A2AC8FC1E00DBA3B6 /* ModuleB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ModuleB.storyboard; sourceTree = "<group>"; };
+		5A1C065C2AC8FCA600DBA3B6 /* ModuleBViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleBViewController.swift; sourceTree = "<group>"; };
+		5A1C065E2AC8FF2E00DBA3B6 /* ModuleBAudioModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleBAudioModel.swift; sourceTree = "<group>"; };
 		B65B5A5624F4409F00E74E73 /* AudioAnalysis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioAnalysis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B65B5A5924F4409F00E74E73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -48,8 +51,6 @@
 		B65B5A7C24F458D700E74E73 /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTHelper.h; path = AudioLabSwift/Utilities/FFTHelper.h; sourceTree = SOURCE_ROOT; };
 		B65B5A7E24F4798B00E74E73 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		B65B5A8024F4AAB800E74E73 /* MetalGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalGraph.swift; sourceTree = "<group>"; };
-		CC66D6BF2AC5BE800091DA2B /* ModuleB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ModuleB.storyboard; sourceTree = "<group>"; };
-		CC66D6C12AC5BF720091DA2B /* ModuleBViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,8 +88,11 @@
 				B65B5A5924F4409F00E74E73 /* AppDelegate.swift */,
 				B65B5A5B24F4409F00E74E73 /* SceneDelegate.swift */,
 				B65B5A5D24F4409F00E74E73 /* ModuleAViewController.swift */,
+				5A1C065C2AC8FCA600DBA3B6 /* ModuleBViewController.swift */,
 				B65B5A7924F4523C00E74E73 /* FrequencyRecognitionModel.swift */,
+				5A1C065E2AC8FF2E00DBA3B6 /* ModuleBAudioModel.swift */,
 				B65B5A5F24F4409F00E74E73 /* ModuleA.storyboard */,
+				5A1C065A2AC8FC1E00DBA3B6 /* ModuleB.storyboard */,
 				5A1C06562AC897FA00DBA3B6 /* Main.storyboard */,
 				B65B5A6224F440A100E74E73 /* Assets.xcassets */,
 				B65B5A6424F440A100E74E73 /* LaunchScreen.storyboard */,
@@ -142,7 +146,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "Eric Larson";
 				TargetAttributes = {
 					B65B5A5524F4409F00E74E73 = {
@@ -175,7 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B65B5A6624F440A100E74E73 /* LaunchScreen.storyboard in Resources */,
-				CC66D6C02AC5BE800091DA2B /* ModuleB.storyboard in Resources */,
+				5A1C065B2AC8FC1E00DBA3B6 /* ModuleB.storyboard in Resources */,
 				B65B5A6324F440A100E74E73 /* Assets.xcassets in Resources */,
 				B65B5A6124F4409F00E74E73 /* ModuleA.storyboard in Resources */,
 				5A1C06572AC897FA00DBA3B6 /* Main.storyboard in Resources */,
@@ -189,9 +193,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC66D6C22AC5BF720091DA2B /* ModuleBViewController.swift in Sources */,
-				B65B5A7A24F4523C00E74E73 /* ModuleBAudioModel.swift in Sources */,
 				B65B5A7A24F4523C00E74E73 /* FrequencyRecognitionModel.swift in Sources */,
+				5A1C065D2AC8FCA600DBA3B6 /* ModuleBViewController.swift in Sources */,
+				5A1C065F2AC8FF2E00DBA3B6 /* ModuleBAudioModel.swift in Sources */,
 				B65B5A7824F444CE00E74E73 /* CircularBuffer.m in Sources */,
 				B65B5A7324F443A400E74E73 /* AudioFileReader.m in Sources */,
 				B65B5A7024F440D600E74E73 /* Novocaine.m in Sources */,
@@ -263,6 +267,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -324,6 +329,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
