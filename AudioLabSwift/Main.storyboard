@@ -8,10 +8,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Storyboard Reference-->
+        <!--ModuleB-->
         <scene sceneID="bXw-ev-BiQ">
             <objects>
-                <viewControllerPlaceholder id="o7S-dS-NTQ" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="ModuleB" id="o7S-dS-NTQ" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="np8-DD-tS8"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G1m-A4-fWs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1458.4000000000001" y="192.85714285714286"/>
@@ -35,7 +37,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="z8C-mE-tbm" kind="showDetail" id="FUu-uQ-d8C"/>
+                                            <segue destination="z8C-mE-tbm" kind="show" id="FUu-uQ-d8C"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MvN-ju-mB7">
@@ -45,6 +47,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="o7S-dS-NTQ" kind="show" id="cuP-XK-YOp"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
