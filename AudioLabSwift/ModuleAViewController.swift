@@ -22,14 +22,12 @@ class ModuleAViewController: UIViewController {
     // setup audio model
     let audio = FrequencyRecognitionModel(buffer_size: AudioConstants.AUDIO_BUFFER_SIZE, fft_zoomed_size: AudioConstants.FFT_ZOOMED_SIZE)
     lazy var graph:MetalGraph? = {
+        print("FrameSize: \(self.userView.frame)")
         return MetalGraph(userView: self.userView)
     }()
-    
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
+    
+    private func setGraph(){
         if let graph = self.graph{
             graph.setBackgroundColor(r: 0, g: 0, b: 0, a: 1)
             
@@ -39,22 +37,27 @@ class ModuleAViewController: UIViewController {
             
             // BONUS: lets also display a version of the FFT that is zoomed in
             graph.addGraph(withName: "fftZoomed",
-                            shouldNormalizeForFFT: true,
+                           shouldNormalizeForFFT: true,
                            numPointsInGraph: AudioConstants.FFT_ZOOMED_SIZE) // 300 points to display
             
             
             graph.addGraph(withName: "fft",
-                            shouldNormalizeForFFT: true,
-                            numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/2)
+                           shouldNormalizeForFFT: true,
+                           numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE/2)
             
             graph.addGraph(withName: "time",
-                numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
+                           numPointsInGraph: AudioConstants.AUDIO_BUFFER_SIZE)
             
             
             
             graph.makeGrids() // add grids to graph
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        setGraph()
         // start up the audio model here, querying microphone
         audio.startMicrophoneProcessing(withFps: 20) // preferred number of FFT calculations per second
 
@@ -64,8 +67,6 @@ class ModuleAViewController: UIViewController {
         Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
             self.updateGraph()
         }
-        
-       
     }
     
     // periodically, update the graph with refreshed FFT Data
@@ -86,6 +87,8 @@ class ModuleAViewController: UIViewController {
                 data: self.audio.fftZoomedData,
                 forKey: "fftZoomed"
             )
+            // update graph size to support landscape mode
+            self.graph!.updateGraphSize()
         }
         
         // display two loudest tones and their musical notes(if possible)

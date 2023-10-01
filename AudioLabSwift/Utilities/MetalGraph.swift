@@ -47,6 +47,7 @@ class MetalGraph {
     private var boxBuffer:[String:MTLBuffer] = [String:MTLBuffer]()
     private var boxColorBuffer:[String:MTLBuffer] = [String:MTLBuffer]()
     private var needsRender = false
+    private var userView:UIView!
     
     //MARK: iOS color palette with gradients
     private let R = [0xFF,0xFF, 0x52,0x5A, 0xFF,0xFF, 0x1A,0x1D, 0xEF,0xC6, 0xDB,0x89, 0x87,0x0B, 0xFF,0xFF]
@@ -79,7 +80,7 @@ class MetalGraph {
         metalLayer.frame = userView.bounds
         
         userView.layer.insertSublayer(metalLayer, at:0)
-    
+        self.userView = userView
         commandQueue = self.device.makeCommandQueue()
         
         // setup a repeating render function
@@ -99,6 +100,11 @@ class MetalGraph {
             
         pipelineState = try! device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
         
+    }
+    
+    // update graph size based on parent UIView
+    func updateGraphSize(){
+        metalLayer.frame = userView.bounds
     }
     
 

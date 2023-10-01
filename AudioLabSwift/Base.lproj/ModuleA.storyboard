@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,14 +21,28 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="500"/>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="500" id="Qz4-Ss-JxT"/>
+                                    <constraint firstAttribute="width" constant="400" id="2Ga-XT-CVV"/>
+                                    <constraint firstAttribute="height" constant="500" id="prg-Wf-wYf"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="2Ga-XT-CVV"/>
+                                        <exclude reference="prg-Wf-wYf"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="2Ga-XT-CVV"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="prg-Wf-wYf"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j2d-ef-Pho">
-                                <rect key="frame" x="37.5" y="528" width="300" height="139"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="7eN-Pc-tqK"/>
-                                </constraints>
+                                <rect key="frame" x="30" y="520" width="345" height="147"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -37,14 +51,64 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="j2d-ef-Pho" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0yN-kl-PPB"/>
-                            <constraint firstItem="j2d-ef-Pho" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="MkP-5u-uBM"/>
-                            <constraint firstItem="YB8-JK-DSb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="XCz-tP-1dG"/>
-                            <constraint firstItem="YB8-JK-DSb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Z3F-Pa-guW"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YB8-JK-DSb" secondAttribute="trailing" id="a5m-Kv-PKF"/>
-                            <constraint firstItem="j2d-ef-Pho" firstAttribute="top" secondItem="YB8-JK-DSb" secondAttribute="bottom" constant="8" symbolic="YES" id="jK7-n5-BM5"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="j2d-ef-Pho" secondAttribute="bottom" id="wZx-pZ-GLs"/>
+                            <constraint firstItem="YB8-JK-DSb" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="AOO-60-8gr"/>
+                            <constraint firstItem="YB8-JK-DSb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="BgU-y3-ILE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="j2d-ef-Pho" secondAttribute="trailing" id="Fe8-Vo-2RF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YB8-JK-DSb" secondAttribute="trailing" id="Hbn-tb-NOI"/>
+                            <constraint firstItem="j2d-ef-Pho" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="JDI-Sl-Jeu"/>
+                            <constraint firstItem="j2d-ef-Pho" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="JHb-yr-Yeh"/>
+                            <constraint firstAttribute="bottom" secondItem="YB8-JK-DSb" secondAttribute="bottom" id="KKt-ot-K3k"/>
+                            <constraint firstItem="j2d-ef-Pho" firstAttribute="leading" secondItem="YB8-JK-DSb" secondAttribute="trailing" constant="30" id="MU2-Mi-74w"/>
+                            <constraint firstItem="YB8-JK-DSb" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="MsE-Cd-HyQ"/>
+                            <constraint firstItem="j2d-ef-Pho" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="bZy-5p-cGE"/>
+                            <constraint firstItem="YB8-JK-DSb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="d6F-dP-Idv"/>
+                            <constraint firstItem="j2d-ef-Pho" firstAttribute="top" secondItem="YB8-JK-DSb" secondAttribute="bottom" id="gPf-by-5Oy"/>
+                            <constraint firstItem="YB8-JK-DSb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="kyu-JW-plJ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="j2d-ef-Pho" secondAttribute="trailing" id="mfE-l2-B39"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="j2d-ef-Pho" secondAttribute="bottom" id="sdW-5D-Enq"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Fe8-Vo-2RF"/>
+                                <exclude reference="mfE-l2-B39"/>
+                                <exclude reference="Hbn-tb-NOI"/>
+                                <exclude reference="sdW-5D-Enq"/>
+                                <exclude reference="d6F-dP-Idv"/>
+                                <exclude reference="KKt-ot-K3k"/>
+                                <exclude reference="MsE-Cd-HyQ"/>
+                                <exclude reference="AOO-60-8gr"/>
+                                <exclude reference="BgU-y3-ILE"/>
+                                <exclude reference="kyu-JW-plJ"/>
+                                <exclude reference="MU2-Mi-74w"/>
+                                <exclude reference="JDI-Sl-Jeu"/>
+                                <exclude reference="JHb-yr-Yeh"/>
+                                <exclude reference="gPf-by-5Oy"/>
+                                <exclude reference="bZy-5p-cGE"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=compact">
+                            <mask key="constraints">
+                                <include reference="Fe8-Vo-2RF"/>
+                                <include reference="d6F-dP-Idv"/>
+                                <include reference="KKt-ot-K3k"/>
+                                <include reference="AOO-60-8gr"/>
+                                <include reference="BgU-y3-ILE"/>
+                                <include reference="MU2-Mi-74w"/>
+                                <include reference="JHb-yr-Yeh"/>
+                                <include reference="bZy-5p-cGE"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="mfE-l2-B39"/>
+                                <include reference="Hbn-tb-NOI"/>
+                                <include reference="sdW-5D-Enq"/>
+                                <include reference="MsE-Cd-HyQ"/>
+                                <include reference="kyu-JW-plJ"/>
+                                <include reference="JDI-Sl-Jeu"/>
+                                <include reference="gPf-by-5Oy"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="loudestLabel" destination="j2d-ef-Pho" id="co6-Qz-R8U"/>
@@ -53,7 +117,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="230" y="-36"/>
+            <point key="canvasLocation" x="-423" y="-36"/>
         </scene>
     </scenes>
     <resources>
