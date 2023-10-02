@@ -4,7 +4,8 @@
 //
 //  Created by Eric Larson 
 //  Copyright © 2020 Eric Larson. All rights reserved.
-//
+// Team name：Trio
+// Team members：Chuanqi Deng, Rognwei Ji, Yunfeng Huang
 
 import UIKit
 import Metal
