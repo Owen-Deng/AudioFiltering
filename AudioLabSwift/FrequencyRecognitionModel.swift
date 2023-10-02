@@ -131,22 +131,27 @@ class FrequencyRecognitionModel {
                 var max2:Float = 0.0
                 var middle:Int
                 for i in 0 ..< self.BUFFER_SIZE/2-self.WINDOW_SIZE{
-                    middle = i + self.HALF_WINDOW_SIZE
-                    if self.fftData[middle] < self.THRESHOLD || self.fftData[i..<i+self.WINDOW_SIZE].max()! != self.fftData[middle]{
+                    middle = i + self.HALF_WINDOW_SIZE // middle of the window
+                    if self.fftData[middle] < self.THRESHOLD || self.fftData[i..<i+self.WINDOW_SIZE].max()! != self.fftData[middle]
+                    {
+                        // continue if magnitude smaller than threshold or the max is not at the middle of the window
                         continue
                     }
+                    
                     if self.fftData[middle] > max1{
+                        // greater than max1
                         max2 = max1 // move the second loudest tone to max2
                         maxIdx2 = maxIdx1
                         max1 = self.fftData[middle]
                         maxIdx1 = middle
                     }else if self.fftData[middle] > max2{
+                        // greater than max1
                         max2 = self.fftData[middle]
                         maxIdx2 = middle
                     }
                 }
                 if maxIdx1 != 0 && maxIdx2 != 0{
-                    //self.loudestTones[0] = self.peakInterpolation(index: maxIdx1)
+                    // update two loudest tones
                     self.loudestTones[0] = Int(Float(maxIdx1) * self.deltaF)
                     self.loudestTones[1] = Int(Float(maxIdx2) * self.deltaF)
                 }
